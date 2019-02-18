@@ -28,7 +28,8 @@ Looking at 444 metro areas in the 50 states, the District of Columbia and Puerto
       <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
       
       <guid>/about/</guid>
-      <description>This is a &amp;ldquo;hello world&amp;rdquo; example website for the blogdown package. The theme was forked from @jrutheiser/hugo-lithium-theme and modified by Yihui Xie.</description>
+      <description>I set up this site to publish data analyses and possibly some occasional musings. The site was created using the R blogdown package in RStudio.
+The theme was forked from @jrutheiser/hugo-lithium-theme and modified by Yihui Xie. I&amp;rsquo;ve made a few tweaks.</description>
     </item>
     
   </channel>
