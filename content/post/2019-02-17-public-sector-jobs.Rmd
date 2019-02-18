@@ -1,5 +1,5 @@
 ---
-title: Public sector jobs
+title: Public sector jobs in Pittsburgh and other metros
 author: Brian Bowling
 date: '2019-02-17'
 categories:
