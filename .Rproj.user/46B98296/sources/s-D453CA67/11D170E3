@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1550461685825.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4279641884",
+    "id" : "11D170E3",
+    "lastKnownWriteTime" : 1550461685,
+    "last_content_update" : 1550461685,
+    "path" : "~/newblog/briandatablog/content/post/2015-07-23-r-rmarkdown.Rmd",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

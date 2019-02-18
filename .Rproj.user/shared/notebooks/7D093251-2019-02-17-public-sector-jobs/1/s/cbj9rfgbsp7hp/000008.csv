@@ -1,0 +1,6 @@
+"0","metro_gov %>% "
+"0","  filter(year==2017) %>%"
+"0","  arrange(desc(pct_government)) %>% "
+"0","  top_n(5, wt=pct_government) %>% "
+"0","  select(area_name, pct_government) %>% "
+"0","  rename(Metro=area_name, `Percent of jobs in public sector`=pct_government)"

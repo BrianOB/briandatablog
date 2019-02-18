@@ -1,0 +1,9 @@
+"0","# libraries"
+"0","library(tidyverse)"
+"0","library(readr)"
+"0","library(cluster)    # clustering algorithms"
+"0","library(factoextra) # clustering algorithms & visualization"
+"2","Welcome! Related Books: `Practical Guide To Cluster Analysis in R` at https://goo.gl/13EFCZ
+"
+"0","library(bbplot)"
+"0","library(scales)"

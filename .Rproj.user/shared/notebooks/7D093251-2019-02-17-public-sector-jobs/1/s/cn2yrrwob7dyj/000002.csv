@@ -1,0 +1,8 @@
+"0","employment_ann <- merge(code_state,employment_ann)"
+"0","employment_ann <- merge(code_area, employment_ann)"
+"0","employment_ann <- merge(code_supersector, employment_ann)"
+"0","employment_ann <- merge(code_industry, employment_ann)"
+"0","employment_ann <- employment_ann %>%"
+"0","  select(state_code, state_name, area_code, area_name,"
+"0","         supersector_code, supersector_name, industry_code,industry_name,"
+"0","         year, value)"
