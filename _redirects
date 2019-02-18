@@ -1,0 +1,2 @@
+﻿# Redirect default Netlify subdomain to primary domain
+http://focused-jones-099e07.netlify.com/* http://briandatablog.rbind.io/:splat 301!
