@@ -21,6 +21,8 @@ library(cluster)    # clustering algorithms
 library(factoextra) # clustering algorithms & visualization
 library(bbplot)
 library(scales)
+library(DT)
+library(formattable)
 
 # housekeeping so that bbplot works correctly
 windowsFonts(Helvetica = windowsFont("TT Helvetica"))
@@ -101,35 +103,38 @@ metro_gov %>%
 
 The data comes from the Bureau of Labor Statistics monthly survey of state and local employment. I use the annual averages, so the latest data is for 2017.
 
-Looking at 444 metro areas in the 50 states, the District of Columbia and Puerto Rico, the concentration of public-sector employment in 2017 ranged from a low of `r percent(min(metro_gov$pct_government),accuracy=.1)` of all jobs in the metro area to a high of `r percent(max(metro_gov$pct_government),accuracy=.1)`.
+Looking at 444 metro areas in the 50 states, the District of Columbia and Puerto Rico, the concentration of public-sector employment in 2017 ranged from a low of `r scales::percent(min(metro_gov$pct_government),accuracy=.1)` of all jobs in the metro area to a high of `r scales::percent(max(metro_gov$pct_government),accuracy=.1)`.
 
-Pittsburgh was on the low end of the range with about `r percent(metro_gov$pct_government[metro_gov$area_name=="Pittsburgh, PA" & metro_gov$year==2017], accuracy=.1)` of its jobs in some branch of government.
+Pittsburgh was on the low end of the range with about `r scales::percent(metro_gov$pct_government[metro_gov$area_name=="Pittsburgh, PA" & metro_gov$year==2017], accuracy=.1)` of its jobs in some branch of government.
 
-You might think Washington, D.C., metro area would have one of highest concentrations but only `r percent(metro_gov$pct_government[metro_gov$area_name=="Washington-Arlington-Alexandria, DC-VA-MD-WV" & metro_gov$year==2017], accuracy=.1)` of its jobs were in the public sector in 2017.
+You might think Washington, D.C., metro area would have one of highest concentrations but only `r scales::percent(metro_gov$pct_government[metro_gov$area_name=="Washington-Arlington-Alexandria, DC-VA-MD-WV" & metro_gov$year==2017], accuracy=.1)` of its jobs were in the public sector in 2017.
 
 The metros with the five highest concentrations were:
 
 ```{r echo=FALSE}
-knitr::kable(
+
 metro_gov %>% 
   filter(year==2017) %>%
   arrange(desc(pct_government)) %>% 
   top_n(5, wt=pct_government) %>% 
-  select(area_name, pct_government) %>% 
-  rename(Metro=area_name, `Percent of jobs in public sector`=pct_government)
-)
+  select(area_name, pct_government) %>%
+  mutate(Metro=area_name, `Percent of jobs in public sector`=percent(pct_government, digits=1)) %>% 
+  select(Metro, `Percent of jobs in public sector`) %>% 
+  formattable(align=c('l','c'))
+
 ```
 
 The metros with the five lowest concentrations were:
 ```{r echo=FALSE}
-knitr::kable(
+
 metro_gov %>% 
   filter(year==2017) %>%
-  arrange(pct_government) %>% 
+  arrange(desc(pct_government)) %>% 
   top_n(-5, wt=pct_government) %>% 
-  select(area_name, pct_government) %>% 
-  rename(Metro=area_name, `Percent of jobs in public sector`=pct_government)
-)
+  select(area_name, pct_government) %>%
+  mutate(Metro=area_name, `Percent of jobs in public sector`=percent(pct_government, digits=1)) %>% 
+  select(Metro, `Percent of jobs in public sector`) %>% 
+  formattable(align=c('l','c'))
 
 ```
 
