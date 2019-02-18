@@ -10,7 +10,9 @@ slug: public-sector-jobs
 ---
 
 
-```{r libraries, include=FALSE}
+```{r prep work, include=FALSE}
+
+# This code loads the data and does all the preprocessing
 
 # libraries
 library(tidyverse)
@@ -19,28 +21,16 @@ library(cluster)    # clustering algorithms
 library(factoextra) # clustering algorithms & visualization
 library(bbplot)
 library(scales)
-```
 
-```{r include=FALSE}
 # housekeeping so that bbplot works correctly
 windowsFonts(Helvetica = windowsFont("TT Helvetica"))
-```
 
-How does Pittsburgh's public sector employment compare to that of other metro areas. In this first glance, I'm going to focus on what percentage of the metro area's jobs are government jobs.
-
-The data comes from the Bureau of Labor Statistics monthly survey of state and local employment. I use the annual averages, so the latest data is for 2017.
-
-
-```{r include=FALSE}
-
+# get the data
 load(file='c:/Users/Brian/Documents/Projects/metro_analysis/data_processed/employment_ann.Rdata')
 
 load(file='c:/Users/Brian/Documents/Projects/metro_analysis/data_processed/codes.RData')
 
-```
-
-
-```{r include=FALSE}
+# add labels and clean up the tibble
 employment_ann <- merge(code_state,employment_ann)
 employment_ann <- merge(code_area, employment_ann)
 employment_ann <- merge(code_supersector, employment_ann)
@@ -52,26 +42,15 @@ employment_ann <- employment_ann %>%
          supersector_code, supersector_name, industry_code,industry_name,
          year, value)
 
-```
-
-
-```{r include=FALSE}
+# fix the industry code by removing the supersector code
 employment_ann$industry_code <- substr(employment_ann$industry_code,3,8)
 
-```
-
-
-```{r include=FALSE}
 # supersector codes for Total Nonfarm, Total Private and Government
 big_picture = c('00','05','06','07','90')
 # industry code for entire supersector
 big_industry = '000000'
 
-```
-
-
-```{r include=FALSE}
-
+# pare it down to the things you're going to display
 metro_gov <- employment_ann %>% 
   filter(supersector_code %in% big_picture, industry_code == big_industry) %>% 
   select(area_name, supersector_name, year, value) %>% 
@@ -90,6 +69,37 @@ ref_gov <- metro_gov %>%
 
 ```
 
+How does Pittsburgh's public sector employment compare to that of other metro areas? In this first glance, I'm going to focus on what percentage of the metro area's jobs are government jobs.
+
+```{r echo=FALSE}
+
+metro_gov %>%
+  filter(year==2017) %>% 
+  ggplot(aes(x=pct_government)) +
+  geom_bar() +
+  geom_segment(data=ref_gov, aes(x=pct_government,
+                                 xend=pct_government,
+                                 y=-2,
+                                 yend=2,
+                                 color=area_name_r),size=2) +
+  labs(title="Public employment in metro areas",
+       x="Government jobs as percent of total nonfarm payroll",
+       y="Number of metro areas (444 total)",
+       caption="Data Source: Bureau of Labor Statistics") +
+  scale_x_continuous(labels=scales::percent) +
+  scale_color_manual(values=c('gold','blue')) +
+  theme_light() +
+  theme(legend.position=c(.7,.8),
+        legend.direction='vertical',
+        legend.title=element_blank(),
+        text=element_text(family='Helvetica'),
+        plot.title=element_text(size=24),
+        axis.title=element_text(face='bold'))
+
+```
+
+
+The data comes from the Bureau of Labor Statistics monthly survey of state and local employment. I use the annual averages, so the latest data is for 2017.
 
 Looking at 444 metro areas in the 50 states, the District of Columbia and Puerto Rico, the concentration of public-sector employment in 2017 ranged from a low of `r percent(min(metro_gov$pct_government),accuracy=.1)` of all jobs in the metro area to a high of `r percent(max(metro_gov$pct_government),accuracy=.1)`.
 
@@ -120,37 +130,6 @@ metro_gov %>%
   select(area_name, pct_government) %>% 
   rename(Metro=area_name, `Percent of jobs in public sector`=pct_government)
 )
-
-```
-
-
-And here's the big picture:
-
-```{r echo=FALSE}
-
-
-metro_gov %>%
-  filter(year==2017) %>% 
-  ggplot(aes(x=pct_government)) +
-  geom_bar() +
-  geom_segment(data=ref_gov, aes(x=pct_government,
-                                 xend=pct_government,
-                                 y=-2,
-                                 yend=2,
-                                 color=area_name_r),size=2) +
-  labs(title="Public employment in metro areas",
-       x="Government jobs as percent of total nonfarm payroll",
-       y="Number of metro areas (444 total)",
-       caption="Data Source: Bureau of Labor Statistics") +
-  scale_x_continuous(labels=scales::percent) +
-  scale_color_manual(values=c('gold','blue')) +
-  theme_light() +
-  theme(legend.position=c(.7,.8),
-        legend.direction='vertical',
-        legend.title=element_blank(),
-        text=element_text(family='Helvetica'),
-        plot.title=element_text(size=24),
-        axis.title=element_text(face='bold'))
 
 ```
 
