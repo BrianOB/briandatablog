@@ -23,6 +23,7 @@ library(bbplot)
 library(scales)
 library(DT)
 library(formattable)
+library(kableExtra)
 
 # housekeeping so that bbplot works correctly
 windowsFonts(Helvetica = windowsFont("TT Helvetica"))
@@ -118,10 +119,10 @@ metro_gov %>%
   arrange(desc(pct_government)) %>% 
   top_n(5, wt=pct_government) %>% 
   select(area_name, pct_government) %>%
-  mutate(Metro=area_name, `Percent of jobs in public sector`=percent(pct_government, digits=1)) %>% 
-  select(Metro, `Percent of jobs in public sector`) %>% 
-  formattable(align=c('l','c'))
-
+  mutate(pct_government=formattable::percent(pct_government,digits=1)) %>% 
+  kable(col.names=c('Metro area','Percent of jobs in public sector')) %>% 
+  kable_styling(bootstrap_options=c('striped','responsive'),full_width = F)
+  
 ```
 
 The metros with the five lowest concentrations were:
@@ -132,9 +133,9 @@ metro_gov %>%
   arrange(desc(pct_government)) %>% 
   top_n(-5, wt=pct_government) %>% 
   select(area_name, pct_government) %>%
-  mutate(Metro=area_name, `Percent of jobs in public sector`=percent(pct_government, digits=1)) %>% 
-  select(Metro, `Percent of jobs in public sector`) %>% 
-  formattable(align=c('l','c'))
-
+  mutate(pct_government=formattable::percent(pct_government,digits=1)) %>% 
+  kable(col.names=c('Metro area','Percent of jobs in public sector')) %>% 
+  kable_styling(bootstrap_options=c('striped','responsive'),full_width = F)
+  
 ```
 
