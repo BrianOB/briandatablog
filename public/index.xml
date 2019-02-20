@@ -6,10 +6,21 @@
     <description>Recent content on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 19 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Popularity of dog names in Allegheny County</title>
+      <link>/2019/02/19/popularity-of-dog-names-in-allegheny-county/</link>
+      <pubDate>Tue, 19 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/02/19/popularity-of-dog-names-in-allegheny-county/</guid>
+      <description>Bella has usurped Molly but Buddy can’t be beat when it comes to the most frequent names on dog licenses in Allegheny County.
+The data comes from the Western Pennsylvania Regional Data Center, https://data.wprdc.org/dataset/allegheny-county-dog-licenses. It includes dogs licensed within the county but not those licensed inside the city of Pittsburgh.
+County dog owners like a lot of variety in their pets’ names. While top names for each gender accont for about 400 to 500 names, about 30,000 dogs are licensed every year with the number of unique names ranging from 7,031 in 2016 to 8,929 in 2008.</description>
+    </item>
     
     <item>
       <title>Public sector jobs in Pittsburgh and other metros</title>
