@@ -1,0 +1,214 @@
+---
+title: Pittsburgh's job trend
+author: Brian Bowling
+date: '2019-02-21'
+slug: pittsburgh-job-trends
+categories:
+  - metros
+tags:
+  - jobs
+---
+
+```{r include=F}
+
+# this is the underlying code for the Pittsburgh job trend blog post
+
+# libraries
+library(tidyverse)
+library(readr)
+library(kml)
+library(scales)
+
+# data
+
+load(file='C:/Users/Brian/Documents/Projects/metro_analysis/data_processed/employment_ann.RData')
+
+load(file='C:/Users/Brian/Documents/Projects/metro_analysis/data_processed/codes.RData')
+
+# data prep
+employment_ann <- merge(code_state,employment_ann)
+employment_ann <- merge(code_area, employment_ann)
+employment_ann <- merge(code_supersector, employment_ann)
+employment_ann <- merge(code_industry, employment_ann)
+
+
+employment_ann <- employment_ann %>%
+  select(state_code, state_name, area_code, area_name,
+         supersector_code, supersector_name, industry_code,industry_name,
+         year, value)
+
+employment_ann$industry_code <- substr(employment_ann$industry_code,3,8)
+
+employment_ann_total <- employment_ann %>% 
+  filter(supersector_code=='00',industry_code=='000000')
+
+temp2 <- employment_ann_total %>% 
+  filter(year==2006) %>% 
+  rename(value_2006 = value) %>% 
+  select(area_code, value_2006)
+
+employment_ann_total <- left_join(employment_ann_total, temp2, by='area_code')
+
+employment_ann_total <- employment_ann_total %>% 
+  group_by(area_code) %>% 
+  mutate(job_index = value/value_2006)
+
+# longitudinal clustering
+
+employment_kml <- employment_ann_total %>% 
+  select(area_code, area_name, year, job_index) %>% 
+  spread(year, job_index)
+
+employment_kml <- as.data.frame(employment_kml)
+
+employment_cld <- cld(employment_kml,
+                      timeInData = c(3:14),
+                      time=c(2006:2017))
+
+# in preparing for this post, I did a standard kml run, from that I picked 4 as
+# the nubmer of clusters
+kml(employment_cld, nbClusters=4, nbRedrawing=3,toPlot='none')
+
+employment_kml$cluster = getClusters(employment_cld, 4)
+
+employment_cluster <- employment_kml %>% 
+  group_by(area_code) %>% 
+  select(area_code, cluster)
+
+employment_ann_total <- left_join(employment_ann_total, employment_cluster, by='area_code')
+
+# graphs
+
+# pittsburgh job total
+# get max value to set y limit
+y_max = max(employment_ann_total$value[employment_ann_total$area_name=='Pittsburgh, PA'])
+
+pitt_jobs1 <- employment_ann_total %>% 
+  filter(area_name=='Pittsburgh, PA') %>% 
+  ggplot(aes(x=year, y=value)) +
+  geom_line() +
+  scale_x_continuous(breaks=seq(2006,2017,1)) +
+  scale_y_continuous(labels=comma) +
+  labs(title="Pittsburgh's total nonfarm payroll employment (annual average)",
+       x='Year',
+       y='Jobs (thousands)') +
+  theme_minimal()
+
+pitt_jobs2 <- employment_ann_total %>% 
+  filter(area_name=='Pittsburgh, PA') %>% 
+  ggplot(aes(x=year, y=value)) +
+  geom_line() +
+  scale_x_continuous(breaks=seq(2006,2017,1)) +
+  scale_y_continuous(labels=comma, limits=c(0,y_max)) +
+  labs(title="Pittsburgh's total nonfarm payroll employment (annual average)",
+       x='Year',
+       y='Jobs (thousands)') +
+  theme_minimal()
+
+
+pitt_jobs_index <- employment_ann_total %>% 
+  filter(area_name=='Pittsburgh, PA') %>% 
+  ggplot(aes(x=year,y=job_index)) +
+  geom_line() +
+  scale_x_continuous(breaks=seq(2006,2017,1)) +
+  labs(title="Pittsburgh job index (reference year is 2006)",
+       x='Year',
+       y='Index') +
+  theme_minimal()
+
+
+all_jobs_index <- employment_ann_total %>% 
+  ggplot(aes(x=year, y=job_index)) +
+  geom_line(aes(group=area_code),alpha=.5) +
+  geom_smooth(se=FALSE,method='gam', formula= y~s(x,bs='cs')) +
+  # highlight Pittsburgh MSA
+  geom_line(aes(x=year, y=job_index), data=filter(employment_ann_total,area_code=='38300'),color='yellow') +
+  scale_x_continuous(breaks=seq(2006, 2017,1)) +
+  labs(title = "Metro job growth since 2006",
+       y="Total nonfarm payroll employment (indexed to 2006)",
+       subtitle="Pittsburgh MSA shown in yellow") +
+  theme_minimal()
+
+
+all_jobs_clustered <- employment_ann_total %>% 
+  ggplot(aes(x=year, y=job_index)) +
+  geom_line(aes(group=area_code, color=cluster),alpha=.5) +
+  geom_smooth(se=FALSE,method='gam', formula= y~s(x,bs='cs')) +
+  # highlight Pittsburgh MSA
+  geom_line(aes(x=year, y=job_index, color='yellow'),
+            data=filter(employment_ann_total,area_code=='38300'),
+            size=1) +
+  scale_color_manual(labels=c('Slightly Worse', 'Slightly Better', 'Much worse', 'Much better','Pittsburgh (slightly better)'),
+                     values=c('pink','lightgreen','red','darkgreen','yellow')) +
+  scale_x_continuous(breaks=seq(2006, 2017,1)) +
+  labs(title = "Metro job growth",
+       y="Job growth index",
+       subtitle="(Average annual total nonfarm payroll employment indexed to 2006)",
+       x="") +
+  theme_minimal() +
+  theme(plot.title=element_text(size=24),
+        legend.position='bottom', legend.title=element_blank()) +
+  guides(colour=guide_legend(override.aes=list(alpha=1, size=1)))
+
+
+```
+
+How does Pittsburgh's job trend compare to that of other metro areas?
+
+Here's the short answer showing the annual average total nonfarm payroll for each metro indexed to 2006.
+
+```{r echo=F}
+all_jobs_clustered
+
+```
+
+
+The general trend line is shown in blue and Pittsburgh's trend is shown in yellow. The metros are divided into four groups based on how their job growth generally compares to the overall trend line.
+
+The clustering method I used put Pittsburgh in the "Slightly Better" group although that's mainly based on its performance between 2008 and 2014.
+
+The longer answer starts with this graph showing the raw numbers for Pittsburgh total nonfarm payroll employment.
+
+```{r echo=F}
+
+pitt_jobs2
+
+```
+
+Since the number of jobs in the 444 metro areas ranged between `r scales::comma(min(employment_ann_total$value[employment_ann_total$year==2017])*1000)` and `r scales::comma(max(employment_ann_total$value[employment_ann_total$year==2017])*1000)` in 2017, putting the raw numbers all on one graph is pretty useless.
+
+```{r echo=F}
+
+employment_ann_total %>% 
+  ggplot(aes(x=year,y=value, group=area_code)) +
+  geom_line() +
+  labs(y="Total nonfarm payroll employment",
+       x='Year',
+       title='Metro jobs (raw numbers)') +
+  scale_x_continuous(breaks=seq(2006,2017,1)) +
+  theme_minimal()
+
+
+```
+
+To solve that problem, I indexed the numbers to 2006. In other words, I divided the value for each metro's jobs in a given year by its 2006 value. There's nothing magical about using 2006, it was the first year in the data.
+
+The result for Pittsburgh is this:
+
+```{r echo=F}
+
+pitt_jobs_index
+
+```
+
+And the result for all the metros is this:
+
+```{r}
+
+all_jobs_index
+
+```
+
+Eyeballing that graph, it looked like there were at least three definable groups: The metros that tended to hug the blue trend line, the ones that diverged upward from it and the ones that diverged downward.
+
+A statistical package for performing k-means clustering on longitudinal data suggested that four groups was the best way to cluster the metros. The result is the graph at the top of the page.

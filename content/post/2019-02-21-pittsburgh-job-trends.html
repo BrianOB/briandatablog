@@ -1,0 +1,30 @@
+---
+title: Pittsburgh's job trend
+author: Brian Bowling
+date: '2019-02-21'
+slug: pittsburgh-job-trends
+categories:
+  - metros
+tags:
+  - jobs
+---
+
+
+
+<p>How does Pittsburgh’s job trend compare to that of other metro areas?</p>
+<p>Here’s the short answer showing the annual average total nonfarm payroll for each metro indexed to 2006.</p>
+<p><img src="/post/2019-02-21-pittsburgh-job-trends_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The general trend line is shown in blue and Pittsburgh’s trend is shown in yellow. The metros are divided into four groups based on how their job growth generally compares to the overall trend line.</p>
+<p>The clustering method I used put Pittsburgh in the “Slightly Better” group although that’s mainly based on its performance between 2008 and 2014.</p>
+<p>The longer answer starts with this graph showing the raw numbers for Pittsburgh total nonfarm payroll employment.</p>
+<p><img src="/post/2019-02-21-pittsburgh-job-trends_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Since the number of jobs in the 444 metro areas ranged between 14,500 and 9,672,200 in 2017, putting the raw numbers all on one graph is pretty useless.</p>
+<p><img src="/post/2019-02-21-pittsburgh-job-trends_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>To solve that problem, I indexed the numbers to 2006. In other words, I divided the value for each metro’s jobs in a given year by its 2006 value. There’s nothing magical about using 2006, it was the first year in the data.</p>
+<p>The result for Pittsburgh is this:</p>
+<p><img src="/post/2019-02-21-pittsburgh-job-trends_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>And the result for all the metros is this:</p>
+<pre class="r"><code>all_jobs_index</code></pre>
+<p><img src="/post/2019-02-21-pittsburgh-job-trends_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Eyeballing that graph, it looked like there were at least three definable groups: The metros that tended to hug the blue trend line, the ones that diverged upward from it and the ones that diverged downward.</p>
+<p>A statistical package for performing k-means clustering on longitudinal data suggested that four groups was the best way to cluster the metros. The result is the graph at the top of the page.</p>

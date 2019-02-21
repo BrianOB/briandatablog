@@ -6,10 +6,22 @@
     <description>Recent content in Posts on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Pittsburgh&#39;s job trend</title>
+      <link>/2019/02/21/pittsburgh-job-trends/</link>
+      <pubDate>Thu, 21 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/02/21/pittsburgh-job-trends/</guid>
+      <description>How does Pittsburgh’s job trend compare to that of other metro areas?
+Here’s the short answer showing the annual average total nonfarm payroll for each metro indexed to 2006.
+The general trend line is shown in blue and Pittsburgh’s trend is shown in yellow. The metros are divided into four groups based on how their job growth generally compares to the overall trend line.
+The clustering method I used put Pittsburgh in the “Slightly Better” group although that’s mainly based on its performance between 2008 and 2014.</description>
+    </item>
     
     <item>
       <title>Popularity of dog names in Allegheny County</title>
