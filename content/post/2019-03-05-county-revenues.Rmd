@@ -33,7 +33,7 @@ Here's a quick look at county revenues. It includes the percent that comes from 
 data_county_web %>% 
   datatable(extensions= "FixedColumns",
             options=list(scrollX = TRUE, fixedColumns=list(leftColumns=2)),
-            colnames=c('County','Total general fund revenues','From taxes','From federal','From state','From other local')) %>% 
+            colnames=c('County','Year','Total general fund revenues','From taxes','From federal','From state','From other local')) %>% 
   formatCurrency(3,digits=0) %>%
   formatPercentage(4:7,digits=1)
 
