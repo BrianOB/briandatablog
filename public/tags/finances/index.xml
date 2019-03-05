@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Finances on Brian&#39;s Data Blog</title>
+    <link>/tags/finances/</link>
+    <description>Recent content in Finances on Brian&#39;s Data Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 05 Mar 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/finances/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>County Revenues</title>
+      <link>/2019/03/05/county-revenues/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/03/05/county-revenues/</guid>
+      <description>Here’s a quick look at county revenues. It includes the percent that comes from local taxes as well as the percent that comes from intergovernmental transfers from federal, state and other local government agencies.
+{&#34;x&#34;:{&#34;filter&#34;:&#34;top&#34;,&#34;filterHTML&#34;:&#34;\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n&#34;</description>
+    </item>
+    
+  </channel>
+</rss>
