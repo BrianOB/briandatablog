@@ -1,0 +1,40 @@
+---
+title: PA County Finances
+author: Brian Bowling
+date: '2019-03-06'
+slug: pa-county-finances
+categories:
+  - counties
+tags:
+  - finances
+---
+
+
+```{r include=F}
+
+library(tidyverse)
+library(DT)
+
+load('C:/Users/Brian/Documents/Projects/pa_local_gov/data_county_web2.RData')
+
+```
+
+As promised, here's a quick look at the counties' spending and debt.
+
+```{r echo=F}
+
+data_county_web2 %>% 
+  datatable(colnames = c('County', 'Year', 'Total revenues', 'Total expenditures', 'Surplus/Deficit', 'End of year balance', 'Total debt', 'Debt/Revenue ratio'),
+            options=list(scrollX=T)) %>% 
+  formatCurrency(3:7,digits=0) %>% 
+  formatPercentage(8,digits=0)
+
+```
+
+The data comes from the annual reports the counties file with the state Department of Community and Economic Development and can be found, in more detail, here: http://munstats.pa.gov/Reports/ReportInformation2.aspx?report=cAfrForm
+
+I had planned to do some subcategories on the expenditures, such as spending on public safety, administration, etc. When I started looking at the data, however, I noticed some significant discrepancies between counties and in the same counties for different years.
+
+While you might expect some counties to spend proportionately more on judicial or public safety than other counties, you wouldn't expect that spending to zero out in some years. So far it looks like the differences come from how the counties reported their spending each year. I plan to look into it further and see what can be reliably reported about the counties' spending patterns.
+
+
