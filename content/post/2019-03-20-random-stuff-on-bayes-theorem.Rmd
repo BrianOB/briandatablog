@@ -1,0 +1,248 @@
+---
+title: Random stuff on Bayes' Theorem
+author: Brian Bowling
+date: '2019-03-20'
+slug: random-stuff-on-bayes-theorem
+categories:
+  - misc
+tags:
+  - stats
+---
+
+
+```{r echo=F, include=F}
+library(tidyverse)
+library(scales)
+library(reshape2)
+library(DT)
+
+```
+
+```{r functions, include=F}
+
+# pretty print a percent
+pct_pretty <- function(x){
+  prettyNum(round(x,digits=3)*100)
+}
+
+
+```
+
+
+
+# Intro
+
+Just some general notes as I try to learn how to use Bayes statistics. Take everything with a large grain of salt since there's a reasonable chance I'll get some of it wrong.
+
+The underlying idea is that the Bayes' Theorem allows you to refine your grasp on reality by using new evidence to modify your understanding.
+
+Terminology:  
+P(A): probability of Event A.  
+P(B): probability of Event B.  
+P(B|A): probability of Event B given Event A.
+P(A|B): probability of event A given event B.  
+
+Bayes' formula:  
+P(A|B) = (P(B|A) x P(A)) / (P(B))
+
+```{r Basic Bayes formula, echo=F}
+
+bayes_basic <- function(p_a, p_b, p_b_a){
+  return((p_b_a * p_a)/p_b)
+}
+
+```
+
+
+# Cookie problem
+
+You have two bowls containing 40 cookies each. Bowl 1 has 30 chocolate chip and 10 macadamia cookies. Bowl 2 has 20 of each type.
+
+Blindfolded, you pick a bowl at random and pick up a cookie. What is the probability that you drew the cookie from Bowl 1 (Event A) given that it's a chocolate chip cookie (Event B)?
+
+Since there are two bowls of cookies, you might think the probability is 1 in 2 or 50 percent. The chocolate cookie, however, is new evidence that adjusts that probability.
+
+Probabilities:  
+P(A): probability of drawing a cookie from Bowl 1 is 1 in 2 bowls or .5.  
+P(B): probability of drawing a chocolate chip cookie is 50 in 80 cookies or .625.  
+P(B | A): probability of drawing a chocolate chip cookie given that you're drawing it from Bowl 1 is 30 in 40 cookies or .75.
+
+```{r echo=F}
+
+prob <- bayes_basic(.5, .625, .75)
+
+```
+There is a `r pct_pretty(prob)`% chance the chocolate chip cookie came from Bowl 1.
+
+A basic rule of probability is that if you have two mutually exclusive events, the probability of one is the inverse of the probability of the other. So since the probability is `r pct_pretty(prob)`% that I drew the chocolate chip cookie from Bowl 1 the probability that I drew it from Bowl 2 is `r pct_pretty(1-prob)`%.
+
+While the difference between the initial 50 percent and revised 60 percent may not seem like much, consider the difference if you draw a macadamia cookie instead.
+
+P(A) is still .5.  
+P(B) becomes 30 in 80 cookies or .375  
+P(B|A) is .25 for bowl 1 and .5 for bowl 2
+
+```{r echo=F}
+
+# Bayes
+p_b1_m <- bayes_basic(.5, .375, .25)
+p_b2_m <- bayes_basic(.5, .375, .5)
+
+```
+
+There's a `r pct_pretty(p_b1_m)`% chance the chocolate cookie came from Bowl 1 and a `r pct_pretty(p_b2_m)`% chance it came from Bowl 2.
+
+So instead of an equal 1 in 2 chance, there's a 1 in 3 chance the cookie came from Bowl 1 and a 2 in 3 chance it came from Bowl 2.
+
+# Drug testing problem
+
+The cookie problem is simple enough that you don't really need Bayes' Theorem to solve it. Since there are 50 chocolate chip cookies, 30 in Bowl 1 and 20 in Bowl 2, it's clear there is a 3/5 or 60 percent chance a chocolate chip cookie came from Bowl 1 and a 2/5 or 40 percent chance it came from Bowl 2.
+
+For a more complex problem, consider drug testing. From the book, **Think Stats**, I get the following.
+
+Studies in the Journal of the American Medical Assocation have estimated that common drug tests are 60 percent sensitive and 99 percent specific.
+
+*Sensitivity* is the chance of the test returning a positive if the target drugs or metabolites are in the fluid sample.
+
+*Specificity* is the chance of the test returning a negative if the target drugs or metabolites aren't in the sample.
+
+What is the likelihood that someone who tests positive for drugs actually used drugs recently?
+
+Initially, it looks pretty certain. After all, while a sensitivity of 60 percent means that the test is giving a negative result for 40 percent of the samples that include the target drugs or metabolites, the specificity means it's only giving a false positive for about 1 percent of the people who haven't recently used drugs.
+
+The key to this is what percent of the people in the test group have recently used drugs.
+
+According to the National Institute on Drug Abuse, https://www.drugabuse.gov/publications/drugfacts/nationwide-trends, a 2013 survey found that about 9.4 percent of the population 12 and older reported using illegal drugs in the previous month. Other estimates are somewhat higher or lower than this one.
+
+Let's use three cases where drug rates are 5 percent, 10 percent and 15 percent.
+
+In other words, P(A) - the probability of a person having recently used drugs - is .05, .1 and .15.
+
+We already know that P(B|A) - the probability of a positive test for a person who recently used drugs - is .6.
+
+What we don't know yet is P(B) - the probability of a positive test for all persons.
+
+To get this, we need to know two more things:  
+
+* P(Not A) - the probability of the person not having recently used drugs, which is 1 - P(A) or .95.
+* P(B|Not A) - the probability of a positive test for someone who hasn't recently used drugs, which is 1 - sensititivty or .01.
+
+The formula for getting P(B) is P(B|A) x P(A) + P(P|Not A) x P(Not A)
+
+```{r echo=F}
+
+bayes_true_pos <- function(drug_use, sensitivity, specificity) {
+  true_positive <- drug_use * sensitivity
+  false_positive <- (1 - drug_use) * (1-specificity)
+  normalizing_constant <- true_positive + false_positive
+  accuracy <- true_positive / normalizing_constant
+  return(accuracy)
+}
+
+```
+
+
+```{r echo=F}
+
+drug_use <- c(.05, .1, .15)
+true_pos <- unlist(map(drug_use, bayes_true_pos, .6, .99))
+false_pos <- 1 - true_pos
+drug_use <- paste0(pct_pretty(drug_use),'%')
+
+cases <- data.frame(drug_use, true_pos, false_pos)
+cases <- melt(cases, id.vars='drug_use')
+cases$drug_use <- factor(cases$drug_use, levels=c('5%','10%','15%'))
+
+cases %>% 
+  ggplot(aes(x=drug_use, y=value, fill=variable)) +
+  geom_col() +
+  scale_y_continuous(labels=percent) +
+  labs(title="Likelihood that positive drug test is correct",
+       y="Percent of positive tests",
+       x='Estimated drug use in population') +
+  scale_fill_discrete(labels=c('Recently used drugs',"Didn't recently use drugs")) +
+  theme(plot.title=element_text(size=24),
+        legend.position='bottom',
+        legend.title=element_blank())
+
+
+```
+
+So you can see that a positive drug test is wrong about 1 out of 4 times for the 5 percent drug use case and still wrong about 1 out of 11 times for 15 percent drug use case.
+
+As I understand it, a lot of employers understand the problem with the accuracy of drug tests and therefore require those who test positive to take a second one. In this case, the sensitivity and specificity are the same but the percent of the population using drugs should be the same as the result of the first calculation. So what happens to the accuracy when you do this double test?
+
+
+```{r echo=F}
+
+drug_use <- c(.05, .10, .15)
+true_pos <- unlist(map(drug_use, bayes_true_pos, .6, .99))
+true_pos <- unlist(map(true_pos, bayes_true_pos, .6, .99))
+false_pos <- 1 - true_pos
+drug_use <- paste0(pct_pretty(drug_use),'%')
+
+cases <- data.frame(drug_use, true_pos, false_pos)
+cases <- melt(cases, id.vars='drug_use')
+cases$drug_use <- factor(cases$drug_use, levels=c('5%','10%','15%'))
+
+cases %>% 
+  ggplot(aes(x=drug_use, y=value, fill=variable)) +
+  geom_col() +
+  scale_y_continuous(labels=percent) +
+  labs(title="Likelihood that two sequential positive drug tests are correct",
+       y="Percent of positive tests",
+       x='Estimated drug use in population') +
+  scale_fill_discrete(labels=c('Recently used drugs',"Didn't recently use drugs")) +
+  theme(plot.title=element_text(size=16),
+        legend.position='bottom',
+        legend.title=element_blank())
+
+
+test_10 <- bayes_true_pos(0.1, .6, .99)
+test_10 <- bayes_true_pos(test_10, .6, .99)
+
+```
+
+If 10 percent of the overall population is using drugs, a double test will accurately identify nearly all of them (`r pct_pretty(test_10)`%) and falsely identifies less than 1 percent of non-drug users (`r pct_pretty(1-test_10)`%).
+
+# Venusian flu or brain leech?
+
+This is a paraphrase of a problem from *Bayes' Theorem Examples: A Visual Introduction for Beginners*. The book includes a caveat that none of the numbers are necessarily valid stats. I decided to further emphasize that by using fictional ailments.
+
+Returning to your spaceship from the space station bar, you become ill. Your autodoc says the symptoms point to two possible causes, Venusian flu or a brain leech.
+
+People suffering from Venusian flu experience your symptoms 90 percent of the time. People suffering from a brain leech experience your symptoms 75 percent of the time. So the early odds favor Venusian flu.
+
+The probability of catching the Venusian flu is 5 percent while the probability of getting a brain leech at this space station is 16 percent.
+
+About 20 percent of the population experiences your symptoms each year.
+
+### Venusian flu probability
+
+P(A) = .05  
+P(B) = .2  
+P(B|A) = .9
+
+```{r echo=F}
+
+prob <- bayes_basic(.05, .2, .9)
+
+```
+
+That gives you a `r pct_pretty(prob)`% chance of having the Venusian flu.
+
+
+### Brain leech probability
+
+P(A) = .16  
+P(B) = .2  
+P(B|A) = .75
+
+```{r echo=F}
+
+prob <- bayes_basic(.16, .2, .75)
+
+```
+
+That gives you a `r pct_pretty(prob)`% chance of having a brain leech. So even though these symptoms are more often associated with Venusian flu, you are nearly three times more likely to be suffering from a brain leech.
+

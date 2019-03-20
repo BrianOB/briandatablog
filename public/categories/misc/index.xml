@@ -6,10 +6,23 @@
     <description>Recent content in Misc on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/misc/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Random stuff on Bayes&#39; Theorem</title>
+      <link>/2019/03/20/random-stuff-on-bayes-theorem/</link>
+      <pubDate>Wed, 20 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/03/20/random-stuff-on-bayes-theorem/</guid>
+      <description>IntroJust some general notes as I try to learn how to use Bayes statistics. Take everything with a large grain of salt since there’s a reasonable chance I’ll get some of it wrong.
+The underlying idea is that the Bayes’ Theorem allows you to refine your grasp on reality by using new evidence to modify your understanding.
+Terminology:
+P(A): probability of Event A.
+P(B): probability of Event B.</description>
+    </item>
     
     <item>
       <title>Popularity of dog names in Allegheny County</title>
