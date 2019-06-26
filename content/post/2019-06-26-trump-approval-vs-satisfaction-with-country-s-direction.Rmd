@@ -1,0 +1,61 @@
+---
+title: Trump approval vs satisfaction with country's direction
+author: Brian Bowling
+date: '2019-06-26'
+slug: trump-approval-vs-satisfaction-with-country-s-direction
+categories:
+  - misc
+tags:
+  - surveys
+---
+
+If you're not sure whether you like the direction the country is heading toward, how likely are you to approve of President Trump's job performance?
+
+Taking a look at the Pew Research Center's "September 2018 Political Survey," the latest dataset publicly available on the center's site, https://www.pewresearch.org/download-datasets/, the answer surprises me at least.
+
+```{r echo=F, message=F}
+
+library(tidyverse)
+library(haven)
+library(survey)
+
+# load data
+sept18 <- read_sav('c:/users/brian/documents/mystuff/projects/api_stuff/data_raw/Sept18 public.sav', user_na = T) %>% 
+  as_factor()
+
+# create survey design
+sept18_design = svydesign(
+         ids = ~0, #formula indicating there are no clusters  
+         data = sept18,      #this is the dataset 
+         weights = ~weight) #this is the 'weight' variable from the dataset
+
+# get q1 by q2
+q1_by_q2 = svyby(~q2,            #variable to estimate
+                   ~q1,          #subgroup variable
+                   design = sept18_design,
+                   FUN = svymean, #function to use on each subgroup
+                   keep.names = FALSE #does not include row.names 
+                                       #for subgroup variable
+      ) 
+
+# clean it up
+q1_by_q2 <- q1_by_q2 %>% 
+  select(q1, Approve = q2Approve, Disapprove = q2Disapprove, "Don't know/Refused" = `q2(VOL) Don't know/Refused`) %>% 
+  gather(key=q2, value=Percent, Approve, Disapprove, `Don't know/Refused`)
+
+levels(q1_by_q2$q1) <- c('Satisfied','Dissatisfied',"Don't know/Refused")
+
+# plot it
+q1_by_q2 %>% ggplot(aes(x=q1, y=Percent, group=q2, fill=q2)) +
+  geom_col(position='dodge') +
+  scale_fill_manual(values=c('green','red','orange')) +
+  scale_y_continuous(labels=scales::percent) +
+  labs(title="Trump approval by how satisfied people are with the country's direction",
+       x='All in all, are you satisfied or dissatisfied with the way things are going in this country today?',
+       subtitle='Do you approve or disapprove of the way Donald Trump is handling his job as President?') +
+  theme(legend.title = element_blank(), plot.subtitle=element_text(size=10),
+        axis.title.x=element_text(size=10))
+
+```
+
+So if you're not sure about the country's direction, there's a roughly equal chance that you approve of Trump's job performance, disapprove or aren't sure. At least that was the case in September of last year.
