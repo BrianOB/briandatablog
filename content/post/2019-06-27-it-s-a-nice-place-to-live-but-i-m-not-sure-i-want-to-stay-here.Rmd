@@ -1,0 +1,140 @@
+---
+title: It's a nice place to live but I'm not sure I want to stay here
+author: Brian Bowling
+date: '2019-06-27'
+slug: it-s-a-nice-place-to-live-but-i-m-not-sure-i-want-to-stay-here
+categories:
+  - misc
+tags:
+  - surveys
+---
+
+```{r libraries, include=F}
+
+library(tidyverse)
+library(haven)
+library(DT)
+library(scales)
+library(janitor)
+
+```
+
+
+```{r, include=F}
+local_news <- read_sav('c:/users/brian/documents/mystuff/projects/api_stuff/data_raw/Local News Public.sav', user_na = T) %>% 
+  as_factor()
+
+```
+
+
+From the Pew Research Center's "2018 Local News Survey" is an interesting example of how the answer to a data analysis changes when you flip the question.
+
+
+```{r quick_look function, include=F}
+
+quick_look <- function(variable) {
+  variable = toupper(variable) # make sure variable is uppercase
+  local_news %>% 
+    group_by(.dots = quo_name(variable)) %>% 
+    summarise(weighted_n = sum(WEIGHT)) %>% 
+    mutate(percent = weighted_n/sum(weighted_n)) %>% 
+    select(-weighted_n) %>% 
+    datatable(options=list(dom='t')) %>% 
+    formatPercentage(2)
+}
+
+```
+
+
+The data comes from the first two questions, which asked 34,897 people to rate the quality of living in their communities and how attached they feel to those communities.
+
+LOCALRATING: Overall, how would you rate your community as a place to live?
+
+```{r localrating, echo=F}
+
+quick_look('LOCALRATING')
+
+```
+
+COMATTACH: In general, how attached do you feel to your local community?
+
+```{r comattach, echo=F}
+
+quick_look('COMATTACH')
+
+```
+
+As you might suspect, people who feel very attached to their communities tend to give them favorable ratings.
+
+```{r rating by attachment, echo=F}
+
+sketch = htmltools::withTags(table(
+  class='display',
+  thead(
+    tr(
+      th(rowspan=2,'Community Rating'),
+      th(colspan=5,'How attached to the community')
+    ),
+    tr(
+      th(colspan=1,'Very'),
+      th(colspan=1,'Somewhat'),
+      th(colspan=1,'Not very'),
+      th(colspan=1,'Not at all'),
+      th(colspan=1,'Refused')
+    )
+  )
+))
+
+
+local_news %>% 
+  group_by(LOCALRATING, COMATTACH) %>% 
+  summarise(weighted_n = sum(WEIGHT)) %>% 
+  group_by(COMATTACH) %>% 
+  mutate(group_wt = sum(weighted_n)) %>% 
+  mutate(percent = weighted_n/group_wt) %>% 
+  select(-weighted_n, -group_wt) %>% 
+  spread(COMATTACH, percent) %>% 
+  adorn_totals(where='row') %>% 
+  datatable(container=sketch, rownames=F,options = list(dom = 't')) %>% 
+  formatPercentage(2:6)
+
+
+```
+
+But what may suprise you is that people who give their communities good ratings may not necessarly feel that attached to them.
+
+```{r attach by rating, echo=F}
+
+
+
+sketch = htmltools::withTags(table(
+  class='display',
+  thead(
+    tr(
+      th(rowspan=2,'How attached'),
+      th(colspan=5,'Quality of living in the community')
+    ),
+    tr(
+      th(colspan=1,'Excellent'),
+      th(colspan=1,'Good'),
+      th(colspan=1,'Only fair'),
+      th(colspan=1,'Poor'),
+      th(colspan=1,'Refused')
+    )
+  )
+))
+
+local_news %>% 
+  group_by(LOCALRATING, COMATTACH) %>% 
+  summarise(weighted_n = sum(WEIGHT)) %>% 
+  group_by(LOCALRATING) %>% 
+  mutate(group_wt = sum(weighted_n)) %>% 
+  mutate(percent = weighted_n/group_wt) %>% 
+  select(-weighted_n, -group_wt) %>% 
+  spread(LOCALRATING, percent) %>% 
+  adorn_totals(where='row') %>% 
+  datatable(container=sketch, rownames=F,options = list(dom = 't')) %>% 
+  formatPercentage(2:6)
+
+
+```

@@ -6,10 +6,21 @@
     <description>Recent content in Surveys on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 26 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 27 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/surveys/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>It&#39;s a nice place to live but I&#39;m not sure I want to stay here</title>
+      <link>/2019/06/27/it-s-a-nice-place-to-live-but-i-m-not-sure-i-want-to-stay-here/</link>
+      <pubDate>Thu, 27 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/06/27/it-s-a-nice-place-to-live-but-i-m-not-sure-i-want-to-stay-here/</guid>
+      <description>From the Pew Research Center’s “2018 Local News Survey” is an interesting example of how the answer to a data analysis changes when you flip the question.
+The data comes from the first two questions, which asked 34,897 people to rate the quality of living in their communities and how attached they feel to those communities.
+LOCALRATING: Overall, how would you rate your community as a place to live?</description>
+    </item>
     
     <item>
       <title>Trump approval vs satisfaction with country&#39;s direction</title>

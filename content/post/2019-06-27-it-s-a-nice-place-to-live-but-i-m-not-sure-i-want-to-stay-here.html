@@ -1,0 +1,36 @@
+---
+title: It's a nice place to live but I'm not sure I want to stay here
+author: Brian Bowling
+date: '2019-06-27'
+slug: it-s-a-nice-place-to-live-but-i-m-not-sure-i-want-to-stay-here
+categories:
+  - misc
+tags:
+  - surveys
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/datatables-binding/datatables.js"></script>
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/dt-core/js/jquery.dataTables.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+
+
+<p>From the Pew Research Center’s “2018 Local News Survey” is an interesting example of how the answer to a data analysis changes when you flip the question.</p>
+<p>The data comes from the first two questions, which asked 34,897 people to rate the quality of living in their communities and how attached they feel to those communities.</p>
+<p>LOCALRATING: Overall, how would you rate your community as a place to live?</p>
+<div id="htmlwidget-1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","data":[["1","2","3","4","5"],["Excellent","Good","Only fair","Poor","Refused"],[0.308968124763565,0.548667090465085,0.117051714184852,0.020031811483975,0.00528125910252258]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>LOCALRATING<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatPercentage(this, row, data, 2, 0, 3, ',', '.');\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<p>COMATTACH: In general, how attached do you feel to your local community?</p>
+<div id="htmlwidget-2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"filter":"none","data":[["1","2","3","4","5"],["Very","Somewhat","Not very","Not at all","Refused"],[0.225116654951963,0.479286631892665,0.226506935579465,0.0613742338561144,0.00771554371979207]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>COMATTACH<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatPercentage(this, row, data, 2, 0, 3, ',', '.');\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<p>As you might suspect, people who feel very attached to their communities tend to give them favorable ratings.</p>
+<div id="htmlwidget-3" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"filter":"none","class":"display","data":[["Excellent","Good","Only fair","Poor","Refused","Total"],[0.61531562890922,0.356572544098006,0.0190618282908204,0.00573146639391707,0.00331853230803635,1],[0.289820145521289,0.630523045886335,0.0721697807697759,0.00297653158888573,0.00451049623371508,1],[0.111341967795227,0.625452150129204,0.242600510674479,0.0175721362492506,0.00303323515183931,1],[0.0672842188983638,0.348445314842933,0.360382903582164,0.215046662868209,0.00884089980833038,1],[0.284382022813282,0.407047266392625,0.142782570885189,0.0176807022484536,0.148107437660451,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th rowspan=\"2\">Community Rating<\/th>\n      <th colspan=\"5\">How attached to the community<\/th>\n    <\/tr>\n    <tr>\n      <th colspan=\"1\">Very<\/th>\n      <th colspan=\"1\">Somewhat<\/th>\n      <th colspan=\"1\">Not very<\/th>\n      <th colspan=\"1\">Not at all<\/th>\n      <th colspan=\"1\">Refused<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatPercentage(this, row, data, 1, 0, 3, ',', '.');\nDTWidget.formatPercentage(this, row, data, 2, 0, 3, ',', '.');\nDTWidget.formatPercentage(this, row, data, 3, 0, 3, ',', '.');\nDTWidget.formatPercentage(this, row, data, 4, 0, 3, ',', '.');\nDTWidget.formatPercentage(this, row, data, 5, 0, 3, ',', '.');\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<p>But what may suprise you is that people who give their communities good ratings may not necessarly feel that attached to them.</p>
+<div id="htmlwidget-4" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"filter":"none","class":"display","data":[["Very","Somewhat","Not very","Not at all","Refused","Total"],[0.448323904693103,0.449583339730717,0.0816256626666055,0.0133655126678658,0.0071015802417089,1],[0.146300771032234,0.55079167722161,0.258206209811611,0.0389773044727537,0.00572403746179122,1],[0.0366601638598943,0.295510504826544,0.469456586992905,0.188961133600038,0.009411610720619,1],[0.0644099782788178,0.0712173135764792,0.198694498327656,0.658868230035453,0.00680997978159387,1],[0.141454315729052,0.409338096475755,0.13009185608918,0.102741305018679,0.216374426687334,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th rowspan=\"2\">How attached<\/th>\n      <th colspan=\"5\">Quality of living in the community<\/th>\n    <\/tr>\n    <tr>\n      <th colspan=\"1\">Excellent<\/th>\n      <th colspan=\"1\">Good<\/th>\n      <th colspan=\"1\">Only fair<\/th>\n      <th colspan=\"1\">Poor<\/th>\n      <th colspan=\"1\">Refused<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatPercentage(this, row, data, 1, 0, 3, ',', '.');\nDTWidget.formatPercentage(this, row, data, 2, 0, 3, ',', '.');\nDTWidget.formatPercentage(this, row, data, 3, 0, 3, ',', '.');\nDTWidget.formatPercentage(this, row, data, 4, 0, 3, ',', '.');\nDTWidget.formatPercentage(this, row, data, 5, 0, 3, ',', '.');\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>

@@ -1,1 +1,0 @@
-"0","employment_ann$industry_code <- substr(employment_ann$industry_code,3,8)"
