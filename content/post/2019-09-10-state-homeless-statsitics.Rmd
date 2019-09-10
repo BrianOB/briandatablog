@@ -1,0 +1,40 @@
+---
+title: State homeless statsitics
+author: Brian Bowling
+date: '2019-09-10'
+slug: state-homeless-statsitics
+categories: []
+tags:
+  - stats
+---
+
+```{r libraries, include=FALSE}
+
+library(tidyverse)
+library(DT)
+library(scales)
+library(janitor)
+
+
+```
+
+```{r load data, include=FALSE}
+
+load('C:/Users/bowli/Documents/Data/federal/homelessness/homeless_2018.RData')
+
+```
+
+With President Trump threatening federal intervention in California's homeless crisis, it's a good time to look at which state's actually have the worst rates of homelessness. The surprise is that he has bigger problems closer to home, regardless of whether you're talking about the White House or his Manhattan apartment.
+
+```{r}
+
+homeless_2018 %>%
+  select(state, homeless_pct) %>% 
+  datatable(colnames=c('State',"Percent of population in 2018 that was homeless")) %>% 
+              formatPercentage(2, digits=2)
+  
+
+```
+
+The homeless estimates come from the Department of Housing and Urban Development, https://www.hudexchange.info/resource/5783/2018-ahar-part-1-pit-estimates-of-homelessness-in-the-us/. I used the Census Bureau's 2018 state population estimates for the denominator.
+

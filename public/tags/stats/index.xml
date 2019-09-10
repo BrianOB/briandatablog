@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Stats on Brian&#39;s Data Blog</title>
+    <title>stats on Brian&#39;s Data Blog</title>
     <link>/tags/stats/</link>
-    <description>Recent content in Stats on Brian&#39;s Data Blog</description>
+    <description>Recent content in stats on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/stats/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>State homeless statsitics</title>
+      <link>/2019/09/10/state-homeless-statsitics/</link>
+      <pubDate>Tue, 10 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/09/10/state-homeless-statsitics/</guid>
+      <description>With President Trump threatening federal intervention in California’s homeless crisis, it’s a good time to look at which state’s actually have the worst rates of homelessness. The surprise is that he has bigger problems closer to home, regardless of whether you’re talking about the White House or his Manhattan apartment.
+homeless_2018 %&amp;gt;%select(state, homeless_pct) %&amp;gt;% datatable(colnames=c(&amp;#39;State&amp;#39;,&amp;quot;Percent of population in 2018 that was homeless&amp;quot;)) %&amp;gt;% formatPercentage(2, digits=2){&#34;</description>
+    </item>
     
     <item>
       <title>Random stuff on Bayes&#39; Theorem</title>
