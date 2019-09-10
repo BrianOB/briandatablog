@@ -26,7 +26,7 @@ load('C:/Users/bowli/Documents/Data/federal/homelessness/homeless_2018.RData')
 
 With President Trump threatening federal intervention in California's homeless crisis, it's a good time to look at which state's actually have the worst rates of homelessness. The surprise is that he has bigger problems closer to home, regardless of whether you're talking about the White House or his Manhattan apartment.
 
-```{r}
+```{r table, echo=FALSE}
 
 homeless_2018 %>%
   select(state, homeless_pct) %>% 
