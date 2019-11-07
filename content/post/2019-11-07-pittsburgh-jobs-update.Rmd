@@ -1,0 +1,169 @@
+---
+title: Pittsburgh jobs update
+author: Brian Bowling
+date: '2019-11-07'
+slug: pittsburgh-jobs-update
+categories:
+  - metros
+tags:
+  - jobs
+---
+
+```{r libraries, include=FALSE}
+
+# libraries
+library(tidyverse)
+library(readr)
+library(kml)
+library(scales)
+library(lubridate)
+library(fredr)
+library(cowplot)
+library(data.table)
+library(gganimate)
+
+```
+
+
+```{r load data,include=FALSE}
+
+# data files need to be updated
+# the metro_handler.Rmd file in the metro_analysis project does this.
+
+load(file='C:/Users/bowli/Documents/Projects/metro_analysis/data_processed/employment_ann.RData')
+
+load(file='C:/Users/bowli/Documents/Projects/metro_analysis/data_processed/codes.RData')
+
+
+```
+
+```{r cleanup, include=FALSE}
+
+
+# add text labels
+
+employment_ann <- merge(code_state,employment_ann)
+employment_ann <- merge(code_area, employment_ann)
+employment_ann <- merge(code_supersector, employment_ann)
+employment_ann <- merge(code_industry, employment_ann)
+
+# reorder columns
+employment_ann <- employment_ann %>%
+  select(state_code, state_name, area_code, area_name,
+         supersector_code, supersector_name, industry_code,industry_name,
+         year, value)
+
+# fix industry code
+employment_ann$industry_code <- substr(employment_ann$industry_code,3,8)
+
+
+# trim to rows containing top totals
+employment_ann <- employment_ann %>% 
+  filter(supersector_code=='00',industry_code=='000000')
+
+# remove columns that only contain one value
+employment_ann <- employment_ann %>% 
+  select(-supersector_code, -supersector_name, -industry_code, -industry_name)
+
+
+```
+
+```{r get ready for k-means, include=FALSE}
+
+# create job index
+
+employment_ann <- employment_ann %>% 
+  left_join(employment_ann %>% 
+              filter(year==2006) %>% 
+              rename(value_2006 = value) %>% 
+              select(area_code, value_2006),
+            by='area_code') %>% 
+  mutate(job_index = value/value_2006)
+
+
+```
+
+
+
+```{r cluster, include=F}
+
+# longitudinal clustering
+
+employment_kml <- employment_ann %>% 
+  select(area_code, area_name, year, job_index) %>% 
+  spread(year, job_index)
+
+employment_kml <- as.data.frame(employment_kml)
+
+employment_cld <- cld(employment_kml,
+                      timeInData = c(3:15),
+                      time=c(2006:2018))
+
+# in preparing for this post, I did a standard kml run, from that I picked 4 as
+# the nubmer of clusters
+kml(employment_cld, nbClusters=4, nbRedrawing=3,toPlot='none')
+
+employment_kml$cluster = getClusters(employment_cld, 4)
+
+employment_cluster <- employment_kml %>% 
+  group_by(area_code) %>% 
+  select(area_code, cluster)
+
+# add cluster info to employment_ann
+employment_ann <- left_join(employment_ann, employment_cluster, by='area_code')
+
+
+
+
+
+```
+
+
+```{r prepare graphs, include=FALSE}
+
+
+# graphs
+
+
+
+all_jobs_clustered <- employment_ann %>%
+  left_join(employment_ann %>% 
+              group_by(year) %>% 
+              summarise(mean_index = mean(job_index)),
+            by='year') %>% 
+  ggplot(aes(x=year, y=job_index)) +
+  geom_line(aes(group=area_code, color=cluster), alpha=.5) +
+  geom_line(aes(x=year, y=job_index, color='yellow'),
+            data=filter(employment_ann, area_code == '38300'),
+            size=1.5) +
+  geom_line(aes(x=year, y=mean_index, color='blue'), size=1) +
+  scale_color_manual(labels=c(A='Slightly Worse', B='Slightly Better', C='Much worse', D='Much better',blue='Metro average', yellow='Pittsburgh'),
+                     values=c(A='pink',B='lightgreen',C='red',D='darkgreen',blue='blue',yellow='yellow'),
+                     aesthetics='colour') +
+  scale_x_continuous(breaks=seq(2006, 2018,1)) +
+  labs(title = "Metro job growth",
+       y="Job growth index",
+       subtitle="(Average annual total nonfarm payroll employment indexed to 2006)",
+       x="") +
+  theme_minimal() +
+  theme(plot.title=element_text(size=24),
+        legend.position='bottom', legend.title=element_blank(),
+        legend.box.background = element_rect(fill='gray90')) +
+  guides(colour=guide_legend(override.aes=list(alpha=1, size=1)))
+
+
+
+```
+
+
+# Pittsburgh fell behind on job creation in 2018
+
+Back in February I posted annual employment data from the Bureau of labor statistics that compared Pittsburgh to four groups of metro areaa. The groups were based on how much the metros gained or lost jobs compared to the 2006 totals.
+
+In this update, you can see that Pittsburgh, which saw a mini boom while the rest of the country was struggling during the 2008 recession, has resumed its usual place of lagging behind the average metro area when it comes to employment growth.
+
+```{r echo=F}
+
+animate(all_jobs_clustered + transition_reveal(year), end_pause = 20)
+
+```

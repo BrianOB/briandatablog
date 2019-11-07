@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Pittsburgh jobs update</title>
+      <link>/2019/11/07/pittsburgh-jobs-update/</link>
+      <pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/11/07/pittsburgh-jobs-update/</guid>
+      <description>Pittsburgh fell behind on job creation in 2018Back in February I posted annual employment data from the Bureau of labor statistics that compared Pittsburgh to four groups of metro areaa. The groups were based on how much the metros gained or lost jobs compared to the 2006 totals.
+In this update, you can see that Pittsburgh, which saw a mini boom while the rest of the country was struggling during the 2008 recession, has resumed its usual place of lagging behind the average metro area when it comes to employment growth.</description>
+    </item>
     
     <item>
       <title>State homeless statsitics</title>

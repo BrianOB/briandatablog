@@ -4,13 +4,42 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>/categories/</loc>
+    <lastmod>2019-11-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/2019/11/07/pittsburgh-jobs-update/</loc>
+    <lastmod>2019-11-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/</loc>
-    <lastmod>2019-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2019-11-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/jobs/</loc>
+    <lastmod>2019-11-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/metros/</loc>
+    <lastmod>2019-11-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -20,20 +49,8 @@
   </url>
   
   <url>
-    <loc>/tags/</loc>
-    <lastmod>2019-09-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/stats/</loc>
     <lastmod>2019-09-10T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
-    <lastmod>2019-06-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -89,18 +106,6 @@
   <url>
     <loc>/2019/02/21/pittsburgh-job-trends/</loc>
     <lastmod>2019-02-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/jobs/</loc>
-    <lastmod>2019-02-21T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/metros/</loc>
-    <lastmod>2019-02-21T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

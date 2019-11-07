@@ -21,9 +21,9 @@ library(scales)
 
 # data
 
-load(file='C:/Users/Brian/Documents/Projects/metro_analysis/data_processed/employment_ann.RData')
+load(file='C:/Users/bowli/Documents/Projects/metro_analysis/data_processed/employment_ann.RData')
 
-load(file='C:/Users/Brian/Documents/Projects/metro_analysis/data_processed/codes.RData')
+load(file='C:/Users/bowli/Documents/Projects/metro_analysis/data_processed/codes.RData')
 
 # data prep
 employment_ann <- merge(code_state,employment_ann)
