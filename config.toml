@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "https://briandatablog.rbind.io/"
 languageCode = "en-us"
 title = "Brian's Data Blog"
 theme = "hugo-lithium"

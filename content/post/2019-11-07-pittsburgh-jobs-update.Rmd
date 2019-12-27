@@ -132,7 +132,7 @@ all_jobs_clustered <- employment_ann %>%
               summarise(mean_index = mean(job_index)),
             by='year') %>% 
   ggplot(aes(x=year, y=job_index)) +
-  geom_line(aes(group=area_code, color=cluster), alpha=.5) +
+  geom_line(aes(group=area_code, color=cluster), alpha=.3) +
   geom_line(aes(x=year, y=job_index, color='yellow'),
             data=filter(employment_ann, area_code == '38300'),
             size=1.5) +

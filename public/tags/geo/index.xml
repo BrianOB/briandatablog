@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>geo on Brian&#39;s Data Blog</title>
+    <link>/tags/geo/</link>
+    <description>Recent content in geo on Brian&#39;s Data Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/geo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>We have a lot of Guts</title>
+      <link>/2019/12/27/we-have-a-lot-of-guts/</link>
+      <pubDate>Fri, 27 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/12/27/we-have-a-lot-of-guts/</guid>
+      <description>It’s been some time since I posted anything, so when I stumbled across this today, I thought it was worth a mention. Perusing the U.S. Geological Survey’s database of domestic names, I discovered the types of named features is a “Gut.”
+We have 3,497 of them.
+What are they? It took some digging, but I found this 1987 data user’s guide that provides this definition: “relatively small coastal waterway connecting larger bodies of water or other waterways (creek, inlet, slough).</description>
+    </item>
+    
+  </channel>
+</rss>

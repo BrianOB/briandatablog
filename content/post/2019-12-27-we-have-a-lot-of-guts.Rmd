@@ -1,0 +1,99 @@
+---
+title: We have a lot of Guts
+author: Brian Bowling
+date: '2019-12-27'
+slug: we-have-a-lot-of-guts
+categories:
+  - misc
+tags:
+  - geo
+---
+
+
+```{r prep, include=F}
+
+library(tidyverse)
+library(DT)
+
+path_data_census <- 'C:/Users/bowli/Documents/data/Census/geo_files/'
+path_common <- 'C:/Users/bowli/Documents/data/commonly_used/'
+
+national_names <- read_delim(paste0(path_data_census,'NationalFile/NationalFile_20191101.txt'),
+                             delim='|',
+                             col_types = cols(.default=col_character(),
+                                  ELEV_IN_M = col_double(),
+                                  ELEV_IN_FT = col_double()),
+                             quote = "")
+
+
+states <- read_tsv(paste0(path_common,'state_abbreviations.csv'))
+
+gut_count <- nrow(national_names[national_names$FEATURE_CLASS == 'Gut',])
+
+gut_names <- national_names %>% 
+  filter(FEATURE_CLASS=='Gut') %>% 
+  group_by(FEATURE_NAME) %>% 
+ summarise(Number=n())
+
+unique_names <- nrow(gut_names %>% 
+                       filter(Number==1))
+  
+
+unique_percent <- round(unique_names / gut_count,digits=2)
+
+```
+
+It's been some time since I posted anything, so when I stumbled across this today, I thought it was worth a mention. Perusing the U.S. Geological Survey's database of domestic names, I discovered the types of named features is a "Gut."
+
+We have `r prettyNum(gut_count,big.mark=',')` of them.
+
+What are they? It took some digging, but I found this 1987 data user's guide that provides this definition: *"relatively small coastal waterway connecting larger bodies of water or other waterways (creek, inlet, slough)."*
+
+When it comes to naming them, people have been creative. About `r prettyNum(unique_percent*100)`% have unique names. The highest number with the same name is 19. Here's the list of guts that have the same name.
+
+```{r echo=F}
+
+national_names %>% 
+  filter(FEATURE_CLASS=='Gut') %>% 
+  group_by(FEATURE_NAME) %>% 
+  summarise(Number = n()) %>% 
+  filter(Number > 1) %>% 
+  arrange(desc(Number)) %>% 
+  datatable(colnames=c('Name','Number'))
+
+```
+
+The longest name for a gut is "Puerto Nuestra Senora de Dolores," in Alaska. 
+
+The shortest gut name is "Neo," which is located in Chuuk, Federated States of Micronesia. It was named in 1984, or about 15 years before "The Matrix," so it is probably not connected to the main character in the movie.
+
+The only gut in Pennsylvania is Black Gut in York County, which connects to the Susquehanna River and is paralleled by "Gut Road."
+
+
+```{r include=F}
+
+add_states <- tibble(state=c('Federated States of Micronesia','Palau'),abbreviation=c('FM','PW'))
+
+states <- bind_rows(states,
+                    add_states)
+
+name_count <- national_names %>% 
+  filter(FEATURE_CLASS == "Gut") %>% 
+  group_by(STATE_ALPHA) %>% 
+  summarise(Number = n()) %>%
+  left_join(states,by=c('STATE_ALPHA'='abbreviation')) %>% 
+  arrange(desc(Number)) %>% 
+  select(abbrev=STATE_ALPHA, State = state, Number)
+
+```
+
+Here's a table of the number of guts by state:
+
+```{r echo=F}
+
+name_count %>% 
+  select(State, Number) %>% 
+  datatable()
+
+```
+
