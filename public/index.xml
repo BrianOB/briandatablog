@@ -6,10 +6,21 @@
     <description>Recent content on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>West Virginia has a higher density of churches than Pennsylvania</title>
+      <link>/2019/12/28/west-virginia-has-more-churches-per-10-square-miles-than-pennsylvania/</link>
+      <pubDate>Sat, 28 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/12/28/west-virginia-has-more-churches-per-10-square-miles-than-pennsylvania/</guid>
+      <description>Although Pennsylvania has nearly twice the land area of West Virginia, their number of churches is almost the same, according to Census and U.S. Geological Survey data.
+Oddly enough, the land area values come from the Census while the number of churches comes from the Geological Survey’s domestic names database, https://www.usgs.gov/core-science-systems/ngp/board-on-geographic-names/domestic-names.
+I started taking a look at the database Friday (Dec. 27, 2019) and decided to see if the data confirmed my personal experience that West Virginia seemed to have more churches per square mile than Pennsylvania or pretty much any other place I’d ever lived.</description>
+    </item>
     
     <item>
       <title>We have a lot of Guts</title>
