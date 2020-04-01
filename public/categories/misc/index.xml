@@ -6,10 +6,20 @@
     <description>Recent content in misc on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/misc/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Coronavirus stats</title>
+      <link>/2020/04/01/coronavirus-stats/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/01/coronavirus-stats/</guid>
+      <description>I know there are a lot of visualizations dealing with the coronavirus, but sometimes I think they get so complex that they hide a few key points. So here’s my take on them using data from the European Centre for Disease Prevention and Control.
+The obvious caveats are that the daily number of new Covid-19 cases and coronavirus-related deaths rely on the accurate testing of patients and the willingness of countries to share data with their own citizens and the rest of the world.</description>
+    </item>
     
     <item>
       <title>West Virginia has a higher density of churches than Pennsylvania</title>
