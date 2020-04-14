@@ -1,0 +1,74 @@
+---
+title: Coronavirus test data (technical)
+author: Brian Bowling
+date: '2020-04-14'
+slug: coronavirus-test-data-technical
+categories:
+  - misc
+tags:
+  - stats
+---
+
+This is the same information I posted earlier, but with the script exposed for those interested in replicating it.
+
+```{r scrape and process data, message=F}
+
+# libraries
+library(tidyverse)
+library(rvest)
+library(lubridate)
+
+# read the web page
+url_cdc_testing_data <- 'https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/testing-in-us.html'
+cdc_testing_web <- read_html(url_cdc_testing_data)
+
+# functions to process data
+endnote <- function(x) {
+  return(str_detect(x,'\\d$',negate=T))
+}
+
+get_last <- function(x) {
+  return(substr(x, nchar(x), nchar(x)))
+}
+
+cutnote <- function(x) {
+  return(substr(x, 1, nchar(x)-1))
+}
+
+# get data from web page
+cdc_test_data <- html_nodes(cdc_testing_web, 'table') %>% 
+  html_nodes('td') %>% 
+  html_text() %>% 
+  matrix(ncol=3, byrow=T, dimnames=list(NULL,c('date','CDC_labs','public_health_labs'))) %>% 
+  as_tibble() %>% 
+  pivot_longer(cols=c(CDC_labs, public_health_labs), names_to='lab_type',
+               values_to = 'tests') %>% 
+  mutate(date = mdy(paste0(date,'/2020')),
+         note = ifelse(endnote(tests),get_last(tests),''),
+         tests = as.integer(ifelse(endnote(tests),cutnote(tests),tests)))
+
+
+# graph data
+# get last date with complete data
+full_data_date <- cdc_test_data %>% 
+  filter(lab_type=='public_health_labs', nchar(note) == 0) %>% 
+  summarise(max_date = max(date)) %>% 
+  pull(max_date)
+
+# draw line chart
+cdc_test_data %>% 
+  filter(date <= full_data_date) %>% 
+  group_by(date) %>% 
+  summarise(tests=sum(tests)) %>% 
+  ggplot(aes(x=date, y=tests, group=1)) +
+  geom_line() +
+  scale_x_date() +
+  scale_y_continuous(labels=scales::comma) +
+  labs(title='Covid-19 testing in the United States',
+       x='',
+       y='Number of tests reported',
+       caption= 'Source:CDC\nNote: Data for last 7 days not shown because CDC says it\'s incomplete.\nThe periodic drops occur on weekends.')
+
+
+```
+

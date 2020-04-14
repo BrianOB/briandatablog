@@ -22,6 +22,16 @@
     </item>
     
     <item>
+      <title>Coronavirus test data (technical)</title>
+      <link>/2020/04/14/coronavirus-test-data-technical/</link>
+      <pubDate>Tue, 14 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/14/coronavirus-test-data-technical/</guid>
+      <description>This is the same information I posted earlier, but with the script exposed for those interested in replicating it.
+# librarieslibrary(tidyverse)library(rvest)library(lubridate)# read the web pageurl_cdc_testing_data &amp;lt;- &amp;#39;https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/testing-in-us.html&amp;#39;cdc_testing_web &amp;lt;- read_html(url_cdc_testing_data)# functions to process dataendnote &amp;lt;- function(x) {return(str_detect(x,&amp;#39;\\d$&amp;#39;,negate=T))}get_last &amp;lt;- function(x) {return(substr(x, nchar(x), nchar(x)))}cutnote &amp;lt;- function(x) {return(substr(x, 1, nchar(x)-1))}# get data from web pagecdc_test_data &amp;lt;- html_nodes(cdc_testing_web, &amp;#39;table&amp;#39;) %&amp;gt;% html_nodes(&amp;#39;td&amp;#39;) %&amp;gt;% html_text() %&amp;gt;% matrix(ncol=3, byrow=T, dimnames=list(NULL,c(&amp;#39;date&amp;#39;,&amp;#39;CDC_labs&amp;#39;,&amp;#39;public_health_labs&amp;#39;))) %&amp;gt;% as_tibble() %&amp;gt;% pivot_longer(cols=c(CDC_labs, public_health_labs), names_to=&amp;#39;lab_type&amp;#39;,values_to = &amp;#39;tests&amp;#39;) %&amp;gt;% mutate(date = mdy(paste0(date,&amp;#39;/2020&amp;#39;)),note = ifelse(endnote(tests),get_last(tests),&amp;#39;&amp;#39;),tests = as.</description>
+    </item>
+    
+    <item>
       <title>Coronavirus stats</title>
       <link>/2020/04/01/coronavirus-stats/</link>
       <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
