@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>U.S above median for deaths from coronavirus infections</title>
+      <link>/2020/04/15/u-s-above-median-for-deaths-from-coronavirus-infections/</link>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/15/u-s-above-median-for-deaths-from-coronavirus-infections/</guid>
+      <description>The United States is seeing a higher rate of deaths from coronavirus infections than the median for the 125 countries that have reported cases and deaths to the European Centre for Disease Prevention and Control, according to today’s stats.
+As with most of coronavirus numbers, the main caveat is that it’s hard to gauge the honesty and competency of any of the countries, including the United States, when it comes to detecting infections and deaths related to Covid-19.</description>
+    </item>
     
     <item>
       <title>Coronavirus test data</title>

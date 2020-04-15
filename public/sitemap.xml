@@ -4,7 +4,32 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-04-14T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/misc/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/stats/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2020/04/15/u-s-above-median-for-deaths-from-coronavirus-infections/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -14,26 +39,6 @@
   
   <url>
     <loc>/2020/04/14/coronavirus-test-data-technical/</loc>
-    <lastmod>2020-04-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/misc/</loc>
-    <lastmod>2020-04-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2020-04-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/stats/</loc>
-    <lastmod>2020-04-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-04-14T00:00:00+00:00</lastmod>
   </url>
   
