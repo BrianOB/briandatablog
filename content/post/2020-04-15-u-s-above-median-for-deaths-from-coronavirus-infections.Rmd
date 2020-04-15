@@ -1,5 +1,5 @@
 ---
-title: U.S above median for deaths from coronavirus infections
+title: U.S. above median for deaths from coronavirus infections
 author: Brian Bowling
 date: '2020-04-15'
 slug: u-s-above-median-for-deaths-from-coronavirus-infections
