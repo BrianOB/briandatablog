@@ -6,10 +6,20 @@
     <description>Recent content in misc on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/misc/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Coronavirus stats - new cases in US decline but new deaths increase</title>
+      <link>/2020/04/16/coronavirus-stats-new-cases-in-us-decline-but-new-deaths-increase/</link>
+      <pubDate>Thu, 16 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/16/coronavirus-stats-new-cases-in-us-decline-but-new-deaths-increase/</guid>
+      <description>An update on my earlier coronavirus post showing some good and bad news for the United States. Specifically, the number of new cases has decreased but the number of new deaths spiked. The spike could be a reporting issue. It’s too early to tell.
+The obvious caveats are that the daily number of new Covid-19 cases and coronavirus-related deaths rely on the accurate testing of patients and the willingness of countries to share data with their own citizens and the rest of the world.</description>
+    </item>
     
     <item>
       <title>U.S. above median for deaths from coronavirus infections</title>

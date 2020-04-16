@@ -1,0 +1,191 @@
+---
+title: Coronavirus stats - new cases in US decline but new deaths increase
+author: Brian Bowling
+date: '2020-04-16'
+slug: coronavirus-stats-new-cases-in-us-decline-but-new-deaths-increase
+categories:
+  - misc
+tags:
+  - stats
+---
+
+
+```{r libraries, include=F}
+
+library(tidyverse)
+library(lubridate)
+library(patchwork)
+library(rvest)
+
+```
+
+An update on my earlier coronavirus post showing some good and bad news for the United States. Specifically, the number of new cases has decreased but the number of new deaths spiked. The spike could be a reporting issue. It's too early to tell.
+
+
+```{r get data, include=F}
+
+data_raw_path <- 'D:/Documents/projects/data_workshop/data_raw/'
+
+# get last download date-time
+load(paste0(data_raw_path,'dl.RData'))
+
+ecdpc_url <- "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv"
+current_dt <- now('UTC')
+
+if (as.numeric(current_dt - dl_dt,unit='days') > 1) {
+  # been more than 24 hours since last download, so get new data
+  download.file(ecdpc_url,paste0(data_raw_path,'casedistribution.csv'))
+  # save current as new download date-time
+  dl_dt <- current_dt
+  save(dl_dt,file=paste0(data_raw_path,'dl.RData'))
+}
+
+ecdpc_data <- read_csv(paste0(data_raw_path,'casedistribution.csv'))
+
+# convert dateRep to date
+
+ecdpc_data <- ecdpc_data %>% 
+  mutate(dateRep=as.Date(dateRep,'%d/%m/%Y'))
+
+
+```
+
+```{r build plots, include=F}
+
+us_cases <- ecdpc_data %>% 
+  filter(geoId == 'US') %>% 
+  arrange(dateRep) %>% 
+  ggplot(aes(x=dateRep)) +
+  geom_col(aes(y=cases)) +
+  labs(title='US cases',x='',y='') +
+  scale_y_continuous(label=scales::comma)
+
+us_deaths <- ecdpc_data %>% 
+  filter(geoId == 'US') %>% 
+  arrange(dateRep) %>% 
+  ggplot(aes(x=dateRep)) +
+  geom_col(aes(y=deaths)) +
+  labs(title='US deaths',x='',y='') +
+  scale_y_continuous(label=scales::comma)
+
+
+world_cases <- ecdpc_data %>% 
+  group_by(dateRep) %>% 
+  summarise(cases = sum(cases)) %>% 
+  arrange(dateRep) %>% 
+  ggplot(aes(x=dateRep)) +
+  geom_col(aes(y=cases)) +
+  labs(title='World cases',x='',y='') +
+  scale_y_continuous(label=scales::comma)
+
+world_deaths <- ecdpc_data %>% 
+  group_by(dateRep) %>% 
+  summarise(deaths = sum(deaths)) %>% 
+  arrange(dateRep) %>% 
+  ggplot(aes(x=dateRep)) +
+  geom_col(aes(y=deaths)) +
+  labs(title='World deaths',x='',y='') +
+  scale_y_continuous(label=scales::comma)
+
+
+china_cases <- ecdpc_data %>% 
+  filter(geoId == 'CN') %>% 
+  arrange(dateRep) %>% 
+  ggplot(aes(x=dateRep)) +
+  geom_col(aes(y=cases)) +
+  labs(title='China cases',x='',y='') +
+  scale_y_continuous(label=scales::comma)
+
+china_deaths <- ecdpc_data %>% 
+  filter(geoId == 'CN') %>% 
+  arrange(dateRep) %>% 
+  ggplot(aes(x=dateRep)) +
+  geom_col(aes(y=deaths)) +
+  labs(title='China deaths',x='',y='') +
+  scale_y_continuous(label=scales::comma)
+
+
+italy_cases <- ecdpc_data %>% 
+  filter(geoId == 'IT') %>% 
+  arrange(dateRep) %>% 
+  ggplot(aes(x=dateRep)) +
+  geom_col(aes(y=cases)) +
+  labs(title='Italy cases',x='',y='') +
+  scale_y_continuous(label=scales::comma)
+
+italy_deaths <- ecdpc_data %>% 
+  filter(geoId == 'IT') %>% 
+  arrange(dateRep) %>% 
+  ggplot(aes(x=dateRep)) +
+  geom_col(aes(y=deaths)) +
+  labs(title='Italy deaths',x='',y='') +
+  scale_y_continuous(label=scales::comma)
+
+```
+
+The obvious caveats are that the daily number of new Covid-19 cases and coronavirus-related deaths rely on the accurate testing of patients and the willingness of countries to share data with their own citizens and the rest of the world.
+
+With that in mind, here's what the data shows about daily new cases and new deaths reported in the United States and worldwide. Note that both are still ramping upward.
+
+```{r us v world, echo=F}
+
+(us_cases | us_deaths) / (world_cases | world_deaths) + plot_annotation(title='Coronavirus trends',
+                                                                        subtitle='New cases and deaths reported daily')
+
+
+```
+
+Here are the latest stats on the testing in the United States. The periodic dips are due to fewer tests being done (or at least reported) on the weekends.
+
+```{r testintg, echo=F}
+
+
+url_cdc_testing_data <- 'https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/testing-in-us.html'
+
+cdc_testing_web <- read_html(url_cdc_testing_data)
+
+endnote <- function(x) {
+  return(str_detect(x,'\\d$',negate=T))
+}
+
+get_last <- function(x) {
+  return(substr(x, nchar(x), nchar(x)))
+}
+
+cutnote <- function(x) {
+  return(substr(x, 1, nchar(x)-1))
+}
+
+cdc_test_data <- html_nodes(cdc_testing_web, 'table') %>% 
+  html_nodes('td') %>% 
+  html_text() %>% 
+  matrix(ncol=3, byrow=T, dimnames=list(NULL,c('date','CDC_labs','public_health_labs'))) %>% 
+  as_tibble() %>% 
+  pivot_longer(cols=c(CDC_labs, public_health_labs), names_to='lab_type',
+               values_to = 'tests') %>% 
+  mutate(date = mdy(paste0(date,'/2020')),
+         note = ifelse(endnote(tests),get_last(tests),''),
+         tests = as.integer(ifelse(endnote(tests),cutnote(tests),tests)))
+
+
+full_data_date <- cdc_test_data %>% 
+  filter(lab_type=='public_health_labs', nchar(note) == 0) %>% 
+  summarise(max_date = max(date)) %>% 
+  pull(max_date)
+
+cdc_test_data %>% 
+  filter(date <= full_data_date) %>% 
+  group_by(date) %>% 
+  summarise(tests=sum(tests)) %>% 
+  ggplot(aes(x=date, y=tests, group=1)) +
+  geom_line() +
+  scale_x_date() +
+  scale_y_continuous(labels=scales::comma) +
+  labs(title='Covid-19 testing in the United States',
+       x='',
+       y='Number of tests reported',
+       caption= 'Source:CDC\nNote: Data for last 7 days not shown because CDC says it\'s incomplete.\nThe periodic drops occur on weekends.')
+
+
+```
+
