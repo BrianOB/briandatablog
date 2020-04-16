@@ -125,7 +125,7 @@ italy_deaths <- ecdpc_data %>%
 
 The obvious caveats are that the daily number of new Covid-19 cases and coronavirus-related deaths rely on the accurate testing of patients and the willingness of countries to share data with their own citizens and the rest of the world.
 
-With that in mind, here's what the data shows about daily new cases and new deaths reported in the United States and worldwide. Note that both are still ramping upward.
+With that in mind, here's what the data shows about daily new cases and new deaths reported in the United States and worldwide.
 
 ```{r us v world, echo=F}
 
