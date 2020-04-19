@@ -1,0 +1,156 @@
+---
+title: The rise of "Bella" as a dog name in Allegheny County
+author: Brian Bowling
+date: '2020-04-19'
+slug: the-rise-of-bella-as-a-dog-name-in-allegheny-county
+categories:
+  - misc
+tags:
+  - pets
+---
+
+```{r libraries, include=F}
+library(tidyverse)
+library(lubridate)
+library(janitor)
+library(gganimate)
+library(extrafont)
+library(gifski)
+
+```
+
+Taking a break from coronavirus stats, I downloaded the latest data on Allegheny County dog licenses and found an interesting trend. If you look at the top 10 dog names in each year from 2007 to 2019, you'll see that "Bella" doesn't even make the list in 2007 but is the top name by 2019.
+
+The data doesn't include dogs licensed inside the city of Pittsburgh.
+
+In general, the top 10 dog names in each year account for about 9 to 10 percent of all licensed dogs, so there's a lot of diversity in dog names in the county. In 2019, for example, the county had about 87,700 licensed dogs. Nearly 9,000 had unique names.
+
+```{r the script, dev='png', echo=F}
+
+#libraries
+
+# set up fonts
+if (length(fonts())==0) {
+  font_import(prompt=F)
+  loadfonts(device='win')
+}
+
+# paths and files
+path_data <- 'D:/Documents/Projects/dognames'
+data_files <- list.files(path=path_data, pattern="2.*\\.csv", full.names=T)
+
+# function to read annual dog license files
+dog_read <- function(path_file) {
+  temp <- read_csv(path_file, col_types = cols(.default=col_character()))
+  temp <- temp %>% 
+    clean_names()
+  
+  return(temp)
+}
+
+# load data
+dog_years <- map_df(data_files,dog_read)
+dog_life <- read_csv(paste0(path_data,'/lifetime.csv'), col_types=cols(.default=col_character())) %>% 
+  clean_names()
+
+# convert dates
+
+dog_years <- dog_years %>% 
+  mutate(
+    valid_date = str_replace(valid_date,"T", " "),
+    valid_date = as_date(valid_date,format='%Y-%m-%d',tz='America/New_York'))
+
+dog_life <- dog_life %>% 
+  mutate(
+    valid_date = str_replace(valid_date,"T", " "),
+    valid_date = as_date(valid_date,format='%Y-%m-%d',tz='America/New_York'))
+
+# add valid_year
+
+dog_years <- dog_years %>% 
+  mutate(valid_year = year(valid_date))
+
+dog_life <- dog_life %>% 
+  mutate(valid_year = year(valid_date))
+
+# put them together
+dog_all <- rbind(dog_life, dog_years) %>% 
+  rename(license_type_orig = license_type)
+
+# extract info from license_type_orig
+
+# put transfer last so that if the original data specifies type of license transferred, that will show
+# up instead of 'Transfer'
+
+dog_all <- dog_all %>% 
+  mutate(license_type = case_when(
+    str_detect(license_type_orig,'Individual') ~ 'Individual',
+    str_detect(license_type_orig,'Lifetime') ~ 'Lifetime',
+    str_detect(license_type_orig,'Senior') ~ 'Senior Citizen or Disability',
+    str_detect(license_type_orig,'Transfer') ~ 'Transfer',
+    TRUE ~ 'Unknown'
+  ))
+
+dog_all <- dog_all %>% 
+  mutate(gender = case_when(
+    str_detect(license_type_orig,'Female') ~ 'Female',
+    str_detect(license_type_orig,'Male') ~ 'Male',
+    TRUE ~ 'Unknown'
+  ))
+
+dog_all <- dog_all %>% 
+  mutate(spay_neuter = case_when(
+    str_detect(license_type_orig,'Spay') ~ 'Y',
+    str_detect(license_type_orig,'Neuter') ~ 'Y',
+    TRUE ~ 'U'
+  ))
+
+# prep the animation
+dog_plot2 <- dog_all %>% 
+  filter(valid_year >= 2007, valid_year < 2020) %>% 
+  group_by(valid_year, dog_name) %>% 
+  summarise(dogs=n()) %>% 
+  arrange(valid_year, -dogs) %>% 
+  mutate(rank=1:n()) %>% 
+  filter(rank <= 10)
+
+
+my_theme <- theme_classic(base_family = "Times New Roman") +
+  theme(axis.text.y = element_blank()) +
+  theme(axis.ticks.y = element_blank()) +
+  theme(axis.line.y = element_blank()) +
+  theme(legend.position='none') +
+  theme(plot.background = element_rect(fill = "gainsboro")) +
+  theme(panel.background = element_rect(fill = "gainsboro"))
+
+my_plot <- dog_plot2 %>% 
+  ggplot(aes(xmin=0, xmax = dogs,
+             ymin=rank-.45, ymax=rank+.45,
+             y=rank)) +
+  facet_wrap(~ valid_year) +
+  geom_rect(alpha=.7) +
+    scale_x_continuous(
+    limits = c(-250, 2000),
+    breaks = c(0, 500, 1000, 1500)) +
+    geom_text(col = "gray13",
+            hjust = "right",
+            aes(label = dog_name),
+            x = -50) +
+  scale_y_reverse() +
+  labs(x='Number of dogs',
+       y='') +
+  my_theme +
+  facet_null() +
+  geom_text(x = 1500 , y = -10,
+            family = "Times New Roman",
+            aes(label = as.character(valid_year)),
+            size = 30, col = "grey18") +
+  aes(group=dog_name, fill=dog_name) +
+  transition_time(valid_year)
+
+# animate it
+animate(my_plot,nframes=300, fps=10, start_pause=10, end_pause=30, device='png')
+
+
+```
+
