@@ -1,0 +1,340 @@
+---
+title: County-by-county Covid-19 trends
+author: Brian Bowling
+date: '2020-05-09'
+slug: local-covid-19-trends
+categories:
+  - misc
+tags:
+  - stats
+---
+
+```{r prep, include=F}
+
+# libraries
+
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(patchwork)
+
+# parameters
+
+swpa <- c("Allegheny County","Armstrong County","Beaver County","Butler County",
+          "Fayette County","Greene County","Lawrence County","Washington County",
+          "Westmoreland County")
+
+
+time_zone <- "America/New_York"
+fmt <- "%m/%d/%Y"
+start_date <- as_date("4/1/2020",tz=time_zone, format=fmt)
+
+# load data
+
+path_raw_data <- 'D:/Documents/projects/data_workshop/data_raw/covid/covid_casesdeaths_reshaped_bln.csv'
+
+local_data <- read_csv(path_raw_data)
+
+local_data <- local_data %>% 
+  clean_names()
+
+# convert date string to date variable
+
+local_data <- local_data %>% 
+  mutate(date = as.Date(date, '%m/%d/%y'))
+
+# create tables for latest totals
+
+latest <- local_data %>% 
+  filter(date == max(date))
+
+pa_latest <- latest %>% 
+  filter(state=="PA")
+
+swpa_latest <- pa_latest %>% 
+  filter(county_name %in% swpa)
+
+latest_table <- bind_rows(
+  latest %>% 
+    group_by(date) %>% 
+    summarise(cases = sum(cases),
+              deaths = sum(deaths)) %>% 
+    mutate(name = "US total"),
+  pa_latest %>% 
+    group_by(date) %>% 
+    summarise(cases = sum(cases),
+              deaths = sum(deaths)) %>% 
+    mutate(name = "PA total"),
+  swpa_latest %>% 
+    group_by(date) %>% 
+    summarise(cases=sum(cases),
+              deaths=sum(deaths)) %>% 
+    mutate(name="SWPA total"),
+  swpa_latest %>% 
+    rename(name=county_name)) %>% 
+  select(name, date, cases, deaths)
+
+# calculate daily numbers
+
+local_data <- local_data %>% 
+  group_by(state, county_name) %>% 
+  mutate(new_cases = cases - lag(cases, order_by = date),
+         new_deaths = deaths - lag(deaths, order_by = date))
+
+# subset data for easier graphing
+
+us_sum <- local_data %>% 
+  filter(date >= start_date) %>% 
+  group_by(date) %>% 
+  summarise(new_cases = sum(new_cases),
+            new_deaths = sum(new_deaths))
+
+pa_sum <- local_data %>% 
+  filter(date >= start_date, state=="PA") %>% 
+  group_by(date) %>% 
+  summarise(new_cases = sum(new_cases),
+            new_deaths = sum(new_deaths))
+
+swpa_data <- local_data %>% 
+  filter(date >= start_date, state=="PA", county_name %in% swpa)
+
+swpa_sum <- swpa_data %>% 
+  group_by(date) %>% 
+  summarise(new_cases = sum(new_cases),
+            new_deaths = sum(new_deaths))
+
+```
+
+# Finding local trend data
+
+While it's easy to find county-level totals for the number of Covid-19 cases and deaths, it's not as easy to find trend data. Fortunately, the nonproft USAFacts.org and Big Local News, a program in Stanford University’s Journalism and Democracy Initiative, have collaborated to provide that kind of data. Here's the latest data for nine counties in Southwestern Pennsylvania: Allegheny, Armstrong, Beaver, Butler, Fayette, Greene, Lawrence, Washington and Westmoreland.
+
+
+```{r swpa, echo=F}
+
+case_num <- latest_table %>% 
+  filter(name=="SWPA total") %>% 
+  pull(cases)
+
+death_num <- latest_table %>% 
+  filter(name=="SWPA total") %>% 
+  pull(deaths)
+
+subtitle_text <- paste0("Total cases: ", prettyNum(case_num,big.mark = ','),
+                        "  Total deaths: ", prettyNum(death_num, big.mark=","))
+
+
+swpa_cases <- swpa_sum %>% 
+  ggplot(aes(x=date, y=new_cases)) +
+  geom_col(fill='yellow',color='black') +
+  labs(title="New cases",
+       x="",
+       y="") +
+  scale_y_continuous(label=scales::label_comma(accuracy=1))
+
+swpa_deaths <- swpa_sum %>% 
+  ggplot(aes(x=date, y=new_deaths)) +
+  geom_col(fill='red',color='black') +
+  labs(title="New deaths",
+       x="",
+       y="") +
+  scale_y_continuous(label=scales::label_comma(accuracy=1))
+
+(swpa_cases | swpa_deaths) + plot_annotation(title="Covid-19 trends for Southwestern PA",
+                                             subtitle=subtitle_text,
+                                         caption="Includes Allegheny, Armstrong, Beaver, Butler, Fayette, Greene, Lawrence, Washington and Westmoreland counties.\nSource:USAFacts.org",
+                                         theme = theme(plot.title = element_text(size = rel(2),
+                                                                                 hjust=0.5),
+                                                       plot.subtitle=element_text(hjust=0.5)))
+
+
+```
+
+At the bottom of this post are the graphs for each individual county but, first, here are the bigger pictures.
+
+
+```{r us, echo=F}
+
+case_num <- latest_table %>% 
+  filter(name=="US total") %>% 
+  pull(cases)
+
+death_num <- latest_table %>% 
+  filter(name=="US total") %>% 
+  pull(deaths)
+
+subtitle_text <- paste0("Total cases: ", prettyNum(case_num,big.mark = ','),
+                        "  Total deaths: ", prettyNum(death_num, big.mark=","))
+
+us_cases <- us_sum %>% 
+  ggplot(aes(x=date, y=new_cases)) +
+  geom_col(fill='yellow',color='black') +
+  labs(title="New cases",
+       x="",
+       y="") +
+  scale_y_continuous(label=scales::label_comma(accuracy=1))
+
+us_deaths <- us_sum %>% 
+  ggplot(aes(x=date, y=new_deaths)) +
+  geom_col(fill='red',color='black') +
+  labs(title="New deaths",
+       x="",
+       y="") +
+  scale_y_continuous(label=scales::label_comma(accuracy=1))
+
+(us_cases | us_deaths) + plot_annotation(title="Covid-19 trends for the United States",
+                                         subtitle=subtitle_text,
+                                         caption="Source: USAFacts.org",
+                                         theme = theme(plot.title = element_text(size = rel(2),
+                                                                                 hjust=0.5),
+                                                       plot.subtitle=element_text(hjust=0.5)))
+
+
+```
+
+
+```{r pa, echo=F}
+
+
+case_num <- latest_table %>% 
+  filter(name=="PA total") %>% 
+  pull(cases)
+
+death_num <- latest_table %>% 
+  filter(name=="PA total") %>% 
+  pull(deaths)
+
+subtitle_text <- paste0("Total cases: ", prettyNum(case_num,big.mark = ','),
+                        "  Total deaths: ", prettyNum(death_num, big.mark=","))
+
+
+pa_cases <- pa_sum %>% 
+  ggplot(aes(x=date, y=new_cases)) +
+  geom_col(fill='yellow',color='black') +
+  labs(title="New cases",
+       x="",
+       y="") +
+  scale_y_continuous(label=scales::label_comma(accuracy=1))
+
+pa_deaths <- pa_sum %>% 
+  ggplot(aes(x=date, y=new_deaths)) +
+  geom_col(fill='red',color='black') +
+  labs(title="New deaths",
+       x="",
+       y="") +
+  scale_y_continuous(label=scales::label_comma(accuracy=1))
+
+(pa_cases | pa_deaths) + plot_annotation(title="Covid-19 trends for Pennsylvania",
+                                         subtitle=subtitle_text,
+                                         caption="Source: USAFacts.org",
+                                         theme = theme(plot.title = element_text(size = rel(2),
+                                                                                 hjust=0.5),
+                                                       plot.subtitle=element_text(hjust=0.5)))
+
+```
+
+
+```{r county_graph, include=F}
+
+
+graph_county <- function(county, data) {
+  title_text <- paste("Covid-19 trends for",county)
+  
+  case_num <- data %>% 
+    filter(name==county) %>% 
+    pull(cases)
+  
+  death_num <- latest_table %>% 
+    filter(name==county) %>% 
+    pull(deaths)
+
+  subtitle_text <- paste0("Total cases: ", prettyNum(case_num,big.mark = ','),
+                          "  Total deaths: ", prettyNum(death_num, big.mark=","))
+
+  county_cases <- swpa_data %>%
+    filter(county_name==county) %>% 
+    ggplot(aes(x=date, y=new_cases)) +
+    geom_col(fill='yellow',color='black') +
+    labs(title="New cases",
+         x="",
+         y="") +
+    scale_y_continuous(label=scales::label_comma(accuracy=1))
+  
+  county_deaths <- swpa_data %>%
+    filter(county_name==county) %>% 
+    ggplot(aes(x=date, y=new_deaths)) +
+    geom_col(fill='red',color='black') +
+    labs(title="New deaths",
+         x="",
+         y="") +
+    scale_y_continuous(label=scales::label_comma(accuracy=1))
+  
+  
+  (county_cases | county_deaths) + plot_annotation(title=title_text,
+                                                   subtitle=subtitle_text,
+                                                   caption="Source: USAFacts.org",
+                                                   theme = theme(plot.title = element_text(size = rel(2),
+                                                                                           hjust=0.5),
+                                                                 plot.subtitle=element_text(hjust=0.5)))
+}
+
+```
+
+
+
+```{r allegheny, echo=F}
+
+graph_county("Allegheny County",latest_table)
+
+```
+
+```{r armstrong, echo=F}
+
+graph_county("Armstrong County", latest_table)
+
+```
+
+```{r beaver, echo=F}
+
+graph_county("Beaver County",latest_table)
+
+```
+
+```{r butler, echo=F}
+
+graph_county("Butler County",latest_table)
+
+
+```
+
+```{r fayette, echo=F}
+
+graph_county("Fayette County",latest_table)
+
+
+```
+
+```{r greene, echo=F}
+
+graph_county("Greene County",latest_table)
+
+```
+
+```{r lawrence, echo=F}
+
+graph_county("Lawrence County",latest_table)
+
+```
+
+```{r washington, echo=F}
+
+graph_county("Washington County",latest_table)
+
+```
+
+```{r westmoreland, echo=F}
+
+graph_county("Westmoreland County",latest_table)
+
+```
+
