@@ -1,0 +1,86 @@
+---
+title: Data reporting - analyzing occurrences
+author: Brian Bowling
+date: '2020-06-07'
+slug: data-reporting-analyzing-occurrences
+categories:
+  - data_reporting
+tags:
+  - stats
+---
+
+# Analyzing the frequency of occurrences
+
+This is the first in an occasional series of posts mainly geared toward other data journalists. In this post, I'm taking a look at how to calculate the frequency of occurrences in a time-series data. The question is a trivial one, but it does illustrate how data can change your thinking.
+
+## Netflix emails
+
+I subscribed to Netflix in June 2019, primarily to watch Season 3 of Stranger Things. Having reached the point of spending more time looking for something to watch than actually watching, I canceled my subscription in February. While I was subscribed, Netflix sent me emails about shows and movies it had added and rather pointless reminders to finish watching TV series I had sampled. (Note to anyone who works at Netflix or another streaming service: if I watch half of the first episode of a series, there's really no point in encouraging me to keep watching the series.)
+
+After I canceled, Netflix began sending me emails asking me to resubscribe. I believed Netflix was sending more emails after I canceled than it did when I was a subscriber. But was that the case?
+
+## A quick analysis
+
+The two packages I use for this are *tidyverse*, which is my go-to package for any analysis because of its enhanced data-wrangling abilities, and *lubridate*, which is my go-to package for handling dates.
+
+```{r libraries, message=F}
+
+library(tidyverse)
+library(lubridate)
+
+```
+
+The data is simply the dates of the 107 emails I received from Netflix from the time of my subscription through June 7. I simply typed them in and then converted them to dates using the as.Date() function. 
+
+```{r}
+
+dates <- tibble(email_date = c("Jun 7 2020", "Jun 5 2020", "Jun 5 2020", "May 29 2020", "May 25 2020", "May 15 2020",
+                                "May 8 2020", "May 8 2020", "May 1 2020", "Apr 26 2020", "Apr 24 2020",
+                                "Apr 23 2020", "Apr 17 2020", "Apr 10 2020", "Apr 8 2020", "Apr 3 2020", "Mar 28 2020",
+                                "Mar 27 2020", "Mar 24 2020", "Mar 17 2020", "Feb 27 2020", "Feb 8 2020", "Feb 7 2020",
+                                "Feb 7 2020", "Feb 5 2020", "Feb 4 2020", "Feb 3 2020", "Jan 30 2020", "Jan 30 2020",
+                                "Jan 29 2020", "Jan 25 2020", "Jan 23 2020", "Jan 19 2020", "Jan 18 2020", "Jan 17 2020",
+                                "Jan 11 2020", "Jan 11 2020", "Jan 9 2020", "Jan 5 2020", "Jan 4 2020", "Jan 1 2020",
+                                "Dec 28 2019", "Dec 27 2019", "Dec 24 2019", "Dec 20 2019", "Dec 20 2019", "Dec 16 2019",
+                                "Dec 13 2019", "Dec 9 2019", "Dec 3 2019", "Dec 1 2019", "Nov 30 2019", "Nov 29 2019",
+                                "Nov 27 2019", "Nov 23 2019", "Nov 18 2019", "Nov 16 2019", "Nov 12 2019", "Nov 9 2019",
+                                "Nov 5 2019", "Nov 2 2019", "Nov 2 2019", "Nov 1 2019", "Oct 30 2019", "Oct 28 2019",
+                                "Oct 28 2019", "Oct 21 2019", "Oct 21 2019", "Oct 20 2019", "Oct 19 2019", "Oct 15 2019",
+                                "Oct 13 2019", "Oct 11 2019", "Oct 7 2019", "Oct 5 2019", "Oct 4 2019", "Sep 30 2019",
+                                "Sep 27 2019", "Sep 21 2019", "Sep 20 2019", "Sep 14 2019", "Sep 14 2019", "Sep 13 2019",
+                                "Sep 12 2019", "Sep 5 2019", "Sep 4 2019", "Aug 31 2019", "Aug 30 2019", "Aug 24 2019",
+                                "Aug 24 2019", "Aug 21 2019", "Aug 17 2019", "Aug 10 2019", "Aug 8 2019", "Aug 3 2019",
+                                "Aug 1 2019", "Jul 27 2019", "Jul 25 2019", "Jul 20 2019", "Jul 17 2019", "Jul 13 2019",
+                                "Jul 13 2019", "Jul 10 2019", "Jul 5 2019", "Jul 4 2019", "Jun 26 2019", "Jun 8 2019")) %>% 
+  mutate(email_date = as.Date(email_date,format="%b %d %Y"))
+
+
+
+```
+
+To analyze the email frequency before and after I canceled my subscription, I added a second field showing the status of my subscription.
+
+```{r}
+cancelled = as.Date("02-27-2020",format="%m-%d-%Y")
+
+dates <- dates %>% 
+  mutate(Netflix_status = ifelse(email_date < cancelled,"Y","N"))
+```
+
+So now the only thing left is to arrange the emails by earliest date first, calculate the time elapsed between each email in days and get the median number of days between emails for the two time periods: subscribed and canceled.
+
+```{r}
+
+dates %>%
+  arrange(email_date) %>% 
+  mutate(time_between_emails = email_date - lag(email_date)) %>% 
+  group_by(Netflix_status) %>% 
+  summarise(`Median time between emails` = median(time_between_emails,na.rm=T),.groups='keep') %>% 
+  mutate(Netflix_status = ifelse(Netflix_status=="N","Canceled","Subscribed"))
+
+
+```
+
+## Conclusion
+
+So there you have it. My perception was wrong. I'm getting less frequent emails from Netflix. I'm apparently just paying more attention to them, which seems like a marketing win except for the fact that I haven't resubscribed.

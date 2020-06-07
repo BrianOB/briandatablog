@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 09 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Data reporting - analyzing occurrences</title>
+      <link>/2020/06/07/data-reporting-analyzing-occurrences/</link>
+      <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/07/data-reporting-analyzing-occurrences/</guid>
+      <description>Analyzing the frequency of occurrencesThis is the first in an occasional series of posts mainly geared toward other data journalists. In this post, I’m taking a look at how to calculate the frequency of occurrences in a time-series data. The question is a trivial one, but it does illustrate how data can change your thinking.
+Netflix emailsI subscribed to Netflix in June 2019, primarily to watch Season 3 of Stranger Things.</description>
+    </item>
     
     <item>
       <title>County-by-county Covid-19 trends</title>
