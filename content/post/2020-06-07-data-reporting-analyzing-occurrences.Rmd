@@ -21,13 +21,14 @@ After I canceled, Netflix began sending me emails asking me to resubscribe. I be
 
 ## A quick analysis
 
-The two packages I use for the analysis are *tidyverse*, which is my go-to package for any analysis because of its enhanced data-wrangling abilities, and *lubridate*, which is my go-to package for handling dates. The *knitr* package includes the *kable()* function that I use to generate the table.
+The two packages I use for the analysis are *tidyverse*, which is my go-to package for any analysis because of its enhanced data-wrangling abilities, and *lubridate*, which is my go-to package for handling dates. The *knitr* package includes the *kable()* function that I use to generate the table and the *kableExtra* package let's me format the table.
 
 ```{r libraries, message=F}
 
 library(tidyverse)
 library(lubridate)
 library(knitr)
+library(kableExtra)
 
 ```
 
@@ -78,7 +79,9 @@ dates %>%
   group_by(Netflix_status) %>% 
   summarise(median = median(time_between_emails,na.rm=T),.groups='keep') %>% 
   mutate(Netflix_status = ifelse(Netflix_status=="N","Canceled","Subscribed")) %>% 
-  kable(col.names=c("Neflix status","Median time between emails"))
+  rename("Netflix status" = Netflix_status, "Median time between emails" = median) %>% 
+  kable(align = 'lr') %>% 
+  kable_styling(full_width = F)
 
 
 ```

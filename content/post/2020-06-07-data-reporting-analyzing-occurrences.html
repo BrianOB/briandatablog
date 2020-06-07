@@ -9,6 +9,7 @@ tags:
   - stats
 ---
 
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
 
 <div id="analyzing-the-frequency-of-occurrences" class="section level1">
@@ -21,10 +22,11 @@ tags:
 </div>
 <div id="a-quick-analysis" class="section level2">
 <h2>A quick analysis</h2>
-<p>The two packages I use for the analysis are <em>tidyverse</em>, which is my go-to package for any analysis because of its enhanced data-wrangling abilities, and <em>lubridate</em>, which is my go-to package for handling dates. The <em>knitr</em> package includes the <em>kable()</em> function that I use to generate the table.</p>
+<p>The two packages I use for the analysis are <em>tidyverse</em>, which is my go-to package for any analysis because of its enhanced data-wrangling abilities, and <em>lubridate</em>, which is my go-to package for handling dates. The <em>knitr</em> package includes the <em>kable()</em> function that I use to generate the table and the <em>kableExtra</em> package let’s me format the table.</p>
 <pre class="r"><code>library(tidyverse)
 library(lubridate)
-library(knitr)</code></pre>
+library(knitr)
+library(kableExtra)</code></pre>
 <p>The data is simply the dates of the 107 emails I received from Netflix from the time of my subscription through June 7. I simply typed them in and then converted them to dates using the as.Date() function.</p>
 <pre class="r"><code>dates &lt;- tibble(email_date = c(&quot;Jun 7 2020&quot;, &quot;Jun 5 2020&quot;, &quot;Jun 5 2020&quot;, &quot;May 29 2020&quot;, &quot;May 25 2020&quot;, &quot;May 15 2020&quot;,
                                 &quot;May 8 2020&quot;, &quot;May 8 2020&quot;, &quot;May 1 2020&quot;, &quot;Apr 26 2020&quot;, &quot;Apr 24 2020&quot;,
@@ -57,22 +59,36 @@ dates &lt;- dates %&gt;%
   group_by(Netflix_status) %&gt;% 
   summarise(median = median(time_between_emails,na.rm=T),.groups=&#39;keep&#39;) %&gt;% 
   mutate(Netflix_status = ifelse(Netflix_status==&quot;N&quot;,&quot;Canceled&quot;,&quot;Subscribed&quot;)) %&gt;% 
-  kable(col.names=c(&quot;Neflix status&quot;,&quot;Median time between emails&quot;))</code></pre>
-<table>
+  rename(&quot;Netflix status&quot; = Netflix_status, &quot;Median time between emails&quot; = median) %&gt;% 
+  kable(align = &#39;lr&#39;) %&gt;% 
+  kable_styling(full_width = F)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
-<tr class="header">
-<th align="left">Neflix status</th>
-<th align="left">Median time between emails</th>
+<tr>
+<th style="text-align:left;">
+Netflix status
+</th>
+<th style="text-align:right;">
+Median time between emails
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">Canceled</td>
-<td align="left">5 days</td>
+<tr>
+<td style="text-align:left;">
+Canceled
+</td>
+<td style="text-align:right;">
+5 days
+</td>
 </tr>
-<tr class="even">
-<td align="left">Subscribed</td>
-<td align="left">2 days</td>
+<tr>
+<td style="text-align:left;">
+Subscribed
+</td>
+<td style="text-align:right;">
+2 days
+</td>
 </tr>
 </tbody>
 </table>
