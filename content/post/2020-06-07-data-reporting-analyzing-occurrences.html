@@ -21,9 +21,10 @@ tags:
 </div>
 <div id="a-quick-analysis" class="section level2">
 <h2>A quick analysis</h2>
-<p>The two packages I use for this are <em>tidyverse</em>, which is my go-to package for any analysis because of its enhanced data-wrangling abilities, and <em>lubridate</em>, which is my go-to package for handling dates.</p>
+<p>The two packages I use for the analysis are <em>tidyverse</em>, which is my go-to package for any analysis because of its enhanced data-wrangling abilities, and <em>lubridate</em>, which is my go-to package for handling dates. The <em>knitr</em> package includes the <em>kable()</em> function that I use to generate the table.</p>
 <pre class="r"><code>library(tidyverse)
-library(lubridate)</code></pre>
+library(lubridate)
+library(knitr)</code></pre>
 <p>The data is simply the dates of the 107 emails I received from Netflix from the time of my subscription through June 7. I simply typed them in and then converted them to dates using the as.Date() function.</p>
 <pre class="r"><code>dates &lt;- tibble(email_date = c(&quot;Jun 7 2020&quot;, &quot;Jun 5 2020&quot;, &quot;Jun 5 2020&quot;, &quot;May 29 2020&quot;, &quot;May 25 2020&quot;, &quot;May 15 2020&quot;,
                                 &quot;May 8 2020&quot;, &quot;May 8 2020&quot;, &quot;May 1 2020&quot;, &quot;Apr 26 2020&quot;, &quot;Apr 24 2020&quot;,
@@ -54,14 +55,27 @@ dates &lt;- dates %&gt;%
   arrange(email_date) %&gt;% 
   mutate(time_between_emails = email_date - lag(email_date)) %&gt;% 
   group_by(Netflix_status) %&gt;% 
-  summarise(`Median time between emails` = median(time_between_emails,na.rm=T),.groups=&#39;keep&#39;) %&gt;% 
-  mutate(Netflix_status = ifelse(Netflix_status==&quot;N&quot;,&quot;Canceled&quot;,&quot;Subscribed&quot;))</code></pre>
-<pre><code>## # A tibble: 2 x 2
-## # Groups:   Netflix_status [2]
-##   Netflix_status `Median time between emails`
-##   &lt;chr&gt;          &lt;drtn&gt;                      
-## 1 Canceled       5 days                      
-## 2 Subscribed     2 days</code></pre>
+  summarise(median = median(time_between_emails,na.rm=T),.groups=&#39;keep&#39;) %&gt;% 
+  mutate(Netflix_status = ifelse(Netflix_status==&quot;N&quot;,&quot;Canceled&quot;,&quot;Subscribed&quot;)) %&gt;% 
+  kable(col.names=c(&quot;Neflix status&quot;,&quot;Median time between emails&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Neflix status</th>
+<th align="left">Median time between emails</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Canceled</td>
+<td align="left">5 days</td>
+</tr>
+<tr class="even">
+<td align="left">Subscribed</td>
+<td align="left">2 days</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
