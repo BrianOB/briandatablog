@@ -25,7 +25,7 @@ library(DT) # helps create readable data tables
 First, a look at Pittsburgh's budgets as provided by the city on its website:
 https://pittsburghpa.gov/omb/budgets-reports
 
-Note: This is the budgeted amount from each year, not the actual revenues and spending. For that you would want 
+Note: This is the budgeted amount from each year, not the actual revenues and spending. For that you would want to look at the city's financial reports.
 
 ```{r pittsburgh data}
 
