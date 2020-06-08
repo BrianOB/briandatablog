@@ -83,7 +83,7 @@ city_budget %>%
 
 ```
 
-Since the annual inflation rate has been hovering around 2% for that same period, you can see that Pittsburgh's growth in revenue and spending is a little above average. That's not necessarily bad since it could indicate the city's economy is doing better than average, but pending growing faster than the revenue is a concern.
+Since the annual inflation rate has been hovering around 2% for that same period, you can see that Pittsburgh's growth in revenue and spending is a little above average. That's not necessarily bad since it could indicate the city's economy is doing better than average, but spending growing faster than the revenue is a concern.
 
 ## Cherry picking
 
