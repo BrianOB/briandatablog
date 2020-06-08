@@ -61,8 +61,8 @@ dates &lt;- dates %&gt;%
   mutate(Netflix_status = ifelse(Netflix_status==&quot;N&quot;,&quot;Canceled&quot;,&quot;Subscribed&quot;)) %&gt;% 
   rename(&quot;Netflix status&quot; = Netflix_status, &quot;Median time between emails&quot; = median) %&gt;% 
   kable(align = &#39;lr&#39;) %&gt;% 
-  kable_styling(full_width = F)</code></pre>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">

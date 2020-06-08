@@ -81,7 +81,7 @@ dates %>%
   mutate(Netflix_status = ifelse(Netflix_status=="N","Canceled","Subscribed")) %>% 
   rename("Netflix status" = Netflix_status, "Median time between emails" = median) %>% 
   kable(align = 'lr') %>% 
-  kable_styling(full_width = F)
+  kable_styling()
 
 
 ```

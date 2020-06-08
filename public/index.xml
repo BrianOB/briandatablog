@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Data reporting - average percent change</title>
+      <link>/2020/06/08/data-reporting-average-percent-change/</link>
+      <pubDate>Mon, 08 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/08/data-reporting-average-percent-change/</guid>
+      <description>Calculating the rate of changeWhen it comes to analyzing several observations over time, figuring out the average percent increase or decrease (i.e. growth rate) is a useful but potentially misleading tool. Looking over a city’s budget for the past five years, for example, you can see how the growth in spending and revenues compared to each other as well as inflation. Comparing county population growth rates over a few decades can help pinpoint the ones with consistent growth.</description>
+    </item>
+    
+    <item>
       <title>Data reporting - analyzing occurrences</title>
       <link>/2020/06/07/data-reporting-analyzing-occurrences/</link>
       <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
