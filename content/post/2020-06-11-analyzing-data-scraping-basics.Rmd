@@ -1,0 +1,129 @@
+---
+title: Analyzing data - scraping basics
+author: Brian Bowling
+date: '2020-06-11'
+slug: analyzing-data-scraping-basics
+categories:
+  - data_reporting
+tags:
+  - stats
+---
+
+
+# A quick look at web scraping, data cleaning and data archiving
+
+This is more of a quick look at something I recently learned than anything exhaustive on the subject. What I learned is how to use *html_table()* in the *rvest* package to save myself a lot of headaches when it comes to scraping.
+
+Typically when I scrape data from the site I figure out how to grab individual pieces of data, pull them into lists and then create a tibble (data frame) from the lists. But *html_table()* can often do all that for me since much of the data I'm seeking is already contained inside an HTML table.
+
+For this example, I'm going to use IRE's Job Center. I really don't see an immediate application for the scraped data but, in theory, scraping it regularly over time would allow you to build up a database that would show which media outlets in which parts of the country are serious about hiring investigative/data journalists. An an unemployed data journalist, that is of some interest to me.
+
+The basic process here is to scrape the job listings, including the url for the actual job listing into a tibble. After some data cleaning, I save the result to an RData file that I'll update in future scrapes to build the database. One variable I use that doesn't show up in this post is the path to where I'm saving the data since that's specific to my computer. If you want to do the scrape yourself, you'll need to save a path to the variable as follows:
+save_path <- 'path to folder for saved data'
+
+```{r libraries, message=F, }
+
+library(tidyverse)  # general data toolbox
+library(rvest)      # scraping toolbox
+library(lubridate)  # date wrangling
+library(janitor)    # data cleaning
+library(DT)         # table building
+
+```
+
+```{r constants, include=F}
+
+save_path <- 'd:/documents/projects/data_workshop/data_processed/'
+
+```
+
+
+## Reading the jobs data web page
+
+This is fairly straightforward. I do it in two steps since I like to have the url value save separately, but there's no reason you couldn't combine the steps.
+
+```{r read jobs page}
+
+url_page <- 'https://www.ire.org/jobs'
+urls <- read_html(url_page)
+
+```
+
+As I said before, typically my next step would be a building a series of lists using a combination of html_nodes(), html_attr() and html_text() to grab the data, but html_table() handles all of that except for the urls, which I have to go old-school on.
+
+
+```{r extract job info}
+
+jobs <- urls %>% 
+  html_table() %>% 
+  bind_cols(url = urls %>% html_nodes(xpath='//td') %>% 
+  html_nodes('h4') %>% 
+  html_nodes('a') %>% 
+  html_attr('href')) %>% 
+  rename(title=X1, employer=X2, location=X3, posted=X4)
+
+```
+
+Taking a look at the results, you can see a couple of issues. One is the unnecessary text in the location and posted fields and the second is that the posted field should probably be formatted as a date to be of any use.
+
+
+```{r take a look}
+
+jobs %>% 
+  datatable(options=list(dom='t'))
+
+```
+
+
+Both are easy to fix.
+
+The *str_replace()* function from the *stringr* package (which is part of the tidyverse), lets you use regular expressions and, in this case, the expressions are easy formulate since it consists of a single work, a colon and one or more spaces or tabs (white space) that we want to cut (replace with an empty string).
+
+A further step with posted is to the base R *as.Date()* function to convert it to a date.
+
+
+```{r clean up}
+
+jobs <- jobs %>% 
+  mutate(location = str_replace(location,"Location:\\s*",""),
+         posted = as.Date(str_replace(posted, "Posted:\\s*",''),format="%m.%d.%Y"))
+
+```
+
+```{r}
+jobs %>% 
+  datatable(options=list(dom='t'))
+
+```
+Much better. This next part is optional until you've already scraped the data once. Basically, you load in the previously scraped data, which is stored in a tibble imaginatively named "previous_jobs", use the *anti_join()* function to identify any job lists in the new data that are not in the previous data and then combine the new and previous jobs into a new version of "previous_jobs" that you save to your hard drive for future endeavors.
+
+```{r update database, highlight=T}
+
+# load previous_jobs from save file
+load(paste0(save_path,'ire_jobs.RData'))
+
+# Any new jobs?
+new_jobs <- anti_join(jobs, previous_jobs)
+
+# if so, update the database
+if (nrow(new_jobs) > 0) {
+  previous_jobs <- bind_rows(new_jobs,previous_jobs)
+  save(previous_jobs, file=paste0(save_path,'ire_jobs.RData'))
+}
+
+```
+
+Finally, if there are new jobs, take a look at them.
+
+```{r}
+
+if (nrow(new_jobs)>0) {
+  new_jobs %>% 
+    data_table(options=list(dom='t'))
+} else {
+  print('No new jobs')
+}
+
+```
+
+

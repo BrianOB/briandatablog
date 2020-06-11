@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>Analyzing data - scraping basics</title>
+      <link>/2020/06/11/analyzing-data-scraping-basics/</link>
+      <pubDate>Thu, 11 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/11/analyzing-data-scraping-basics/</guid>
+      <description>A quick look at web scraping, data cleaning and data archivingThis is more of a quick look at something I recently learned than anything exhaustive on the subject. What I learned is how to use html_table() in the rvest package to save myself a lot of headaches when it comes to scraping.
+Typically when I scrape data from the site I figure out how to grab individual pieces of data, pull them into lists and then create a tibble (data frame) from the lists.</description>
+    </item>
+    
+    <item>
       <title>Data reporting - average percent change</title>
       <link>/2020/06/08/data-reporting-average-percent-change/</link>
       <pubDate>Mon, 08 Jun 2020 00:00:00 +0000</pubDate>
