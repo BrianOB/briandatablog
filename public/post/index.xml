@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 11 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Data reporting - more scraping</title>
+      <link>/2020/06/12/data-reporting-more-scraping/</link>
+      <pubDate>Fri, 12 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/12/data-reporting-more-scraping/</guid>
+      <description>A fellow reporter, Jason Kandel, asked me to look at how to use Google Sheets to scrape wildfire information from this site: https://inciweb.nwcg.gov/accessible-view/
+I’ve had mixed success using Google Sheets as a scraper but I managed to come up with a kludge that requires manual updates as fires get added to the list (which seems to be fairly often based on my limited experience with the site).</description>
+    </item>
     
     <item>
       <title>Data reporting - web scraping basics</title>
