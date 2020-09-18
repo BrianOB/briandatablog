@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.75.1" />
+
+
+<title>Data reporting - location quotients - Brian&#39;s Data Blog</title>
+<meta property="og:title" content="Data reporting - location quotients - Brian&#39;s Data Blog">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+<style>h1 {text-align:center;}</style>
+<h1><img src="/images/mug011119_2.png" alt="My Ugly Mug" width=45 height=60>
+Brian's Data Blog</h1>
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/college_lodge.png"
+         width="75"
+         height="75"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/BrianOB/briandatablog">GitHub</a></li>
+    
+    <li><a href="">Gmail address: briandatablog</a></li>
+    
+    <li><a href="https://twitter.com/brianbupdate">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">4 min read</span>
+    
+
+    <h1 class="article-title">Data reporting - location quotients</h1>
+
+    
+    <span class="article-date">2020-07-27</span>
+    
+
+    <div class="article-content">
+      
+
+
+<p>Any time you have data that’s broken down by geography, an obvious question is how can you compare the geographies. Normalizing the data by calculating the percent of total or the per-capita amount is a good first step, but an often more useful analysis is what’s called the “location quotient.”</p>
+<p>The location quotient (LQ), shows how concentrated an industry is in an area.</p>
+<p>This is most frequently found in economic data and, in particular, in labor market analyses, which is what I’m going to do here. The basic idea is that you divide local employment in each industry by the total nonfarm payroll employment to come up with the industry’s “local share” of the labor market. Then you compare that local share to the industry’s share of a larger labor market.</p>
+<p>In the Pittsburgh metro area, for example, primary metals manufacturing provided about 11,100 jobs or 0.930% of the local labor market in 2019, according to Bureau of Labor Statistics figures. If you combine job numbers for all metros and calculate the percent that were in primary metals, you come up with 0.008%.</p>
+<p>To get the location quotient, you divide the local share by the aggregate share for all metros to get 116.2, which shows that the home of the <em>Steelers</em> has a concentration of metal manufacturing jobs. Not a big surprise.</p>
+<p>Most of the analyses I’ve seen use the national labor market. In this case, I’m going to restrict the analysis to metro labor markets, and will use their aggregate employment numbers as the comparator. Probably there’s a reason not to do it this way, but my reasons for doing it include that some industries (such as government and health care) tend to be concentrated in metro areas and another is that metro areas tend to other metro areas as their main competitors.</p>
+<p>If you have data over time, you can take this a step further and do a “shift-share analysis” that looks at how much the change in the data is driven by national, industry and local trends. But that’s a subject for another post.</p>
+<p>For this example, I downloaded the <em>sm.data.0.Current</em> file from the Bureau of Labor Statistics, <a href="https://downloadt.bls.gov/pub/time.series/sm/" class="uri">https://downloadt.bls.gov/pub/time.series/sm/</a> and loaded it into a tibble with the following code:</p>
+<p>current &lt;- read_tsv(paste0(path_raw,‘file_name’))</p>
+<p>I did the same for four code lookup files: sm.area and sm.state have state and MSA names, sm.supersector and sm.industry have supersector and industry descriptions. A <strong>supersector</strong> is a major grouping of industries such as mining, government, etc.</p>
+<p>The <em>path_raw</em> variable points to the data folder where I store the BLS data. Obviously, if you decide to do this, it will be different for your machine.</p>
+<p>Since I live in the Pittsburgh metro area, I’m going to extract the data for that area and build a table that illustrates what a location quotient looks like.</p>
+<p>Without the labels, it’s not very readable, but you can see the general idea that employment for each supersector-industry combination is divided by the total (the first row) representing total nonfarm payroll employment in the Pittsburgh MSA for 2019 to get the local share and then the same was done to get the industry share of the aggregate metro labor market. The final step is to divide the local_share by the agg_share to get the location quotient.</p>
+<p>In this case, mining and logging industry employment is about 7 times higher in Pittsburgh than it is in most metro areas and represents about 1 percent of the total labor market. It’s no suprise that the home of the Steelers has iron and steel mill employment about 124 times higher than most metro areas, but it only represents about 0.5% of the labor market.</p>
+<pre><code>
+Here&#39;s the same data with labels replacing the supersector and industry codes.
+
+
+
+pitt_emp %&gt;% 
+  left_join(cd_supersector, by=c(&#39;supersector&#39;=&#39;supersector_code&#39;)) %&gt;% 
+  mutate(industry_code = paste0(supersector, industry)) %&gt;% 
+  left_join(cd_industry, by=&#39;industry_code&#39;) %&gt;% 
+  select(supersector_name, industry_name, value, local_share, lq) %&gt;% 
+  datatable(colnames=c(&#39;Supersector&#39;,&#39;Industry&#39;,&#39;Employment (in thousands)&#39;,&#39;Local share&#39;,&quot;LQ&quot;)) %&gt;% 
+  formatPercentage(&#39;local_share&#39;,digits=1) %&gt;% 
+  formatRound(&#39;value&#39;,digits=1)
+
+
+
+
+msa_latest_agg &lt;- msa_emp_latest %&gt;% 
+  group_by(supersector, industry) %&gt;% 
+  summarise(msa_value=sum(value)) %&gt;%
+  ungroup() %&gt;% 
+  mutate(msa_share = msa_value/max(msa_value))
+
+msa_earliest_agg &lt;- msa_emp_earliest %&gt;% 
+  group_by(supersector, industry) %&gt;% 
+  summarise(msa_value=sum(value)) %&gt;%
+  ungroup() %&gt;% 
+  mutate(msa_share = msa_value/max(msa_value))
+
+
+
+combined_latest &lt;- pitt_emp_latest %&gt;% 
+  left_join(msa_latest_agg,by=c(&#39;supersector&#39;,&#39;industry&#39;)) %&gt;% 
+  left_join(cd_super,by=c(&#39;supersector&#39;=&#39;supersector_code&#39;)) %&gt;%
+  mutate(new_industry = paste0(supersector, industry)) %&gt;% 
+  left_join(cd_industry,by=c(&#39;new_industry&#39;=&#39;industry_code&#39;)) %&gt;% 
+  select(supersector_name, supersector, industry_name, industry, value, local_share, msa_share) %&gt;% 
+  mutate(lq=local_share/msa_share)
+
+combined_earliest &lt;- pitt_emp_earliest %&gt;% 
+  left_join(msa_earliest_agg,by=c(&#39;supersector&#39;,&#39;industry&#39;)) %&gt;% 
+  left_join(cd_super,by=c(&#39;supersector&#39;=&#39;supersector_code&#39;)) %&gt;%
+  mutate(new_industry = paste0(supersector, industry)) %&gt;% 
+  left_join(cd_industry,by=c(&#39;new_industry&#39;=&#39;industry_code&#39;)) %&gt;% 
+  select(supersector_name, supersector, industry_name, industry, value, local_share, msa_share) %&gt;% 
+  mutate(lq=local_share/msa_share)
+
+
+msa_all &lt;- msa_emp_latest %&gt;% 
+  select(area, supersector, industry, value) %&gt;% 
+  group_by(area) %&gt;% 
+  mutate(area_share = value / max(value)) %&gt;% 
+  ungroup()
+
+msa_all &lt;- msa_all %&gt;% 
+  left_join(msa_latest_agg,by=c(&#39;supersector&#39;,&#39;industry&#39;))
+
+msa_all &lt;- msa_all %&gt;% 
+  mutate(lq=area_share/msa_share)
+
+msa_all &lt;- msa_all %&gt;% 
+  left_join(cd_area,by=c(&#39;area&#39;=&#39;area_code&#39;)) %&gt;% 
+  left_join(cd_super,by=c(&#39;supersector&#39;=&#39;supersector_code&#39;)) %&gt;%
+  mutate(new_industry = paste0(supersector, industry)) %&gt;% 
+  left_join(cd_industry,by=c(&#39;new_industry&#39;=&#39;industry_code&#39;)) %&gt;% 
+  select(area, area_name, supersector, supersector_name, industry, industry_name, value, area_share, msa_share, lq)
+
+msa_top5 &lt;- msa_all %&gt;% 
+  group_by(area) %&gt;% 
+  arrange(desc(lq)) %&gt;% 
+  slice(1:5)
+
+msa_top1 &lt;- msa_all %&gt;% 
+  group_by(area) %&gt;% 
+  arrange(desc(lq)) %&gt;% 
+  slice(1)
+
+msa_top1_groups &lt;- msa_top1 %&gt;% 
+  group_by(supersector_name, industry_name) %&gt;% 
+  count() %&gt;% 
+  arrange(desc(n))
+
+msa_top5_groups &lt;- msa_top5 %&gt;% 
+  group_by(supersector_name) %&gt;% 
+  count() %&gt;% 
+  arrange(desc(n))
+
+msa_top_super &lt;- msa_all %&gt;% 
+  group_by(area_name, supersector_name) %&gt;% 
+  summarise(lq_combined = round(sum(lq),digits=1)) %&gt;% 
+  arrange(desc(lq_combined)) %&gt;% 
+  slice(1)
+
+
+msa_top_super %&gt;% 
+  group_by(supersector_name) %&gt;% 
+  summarise(number=n())
+
+msa_top_super %&gt;% 
+  arrange(supersector_name, desc(lq_combined), area_name)
+
+</code></pre>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+

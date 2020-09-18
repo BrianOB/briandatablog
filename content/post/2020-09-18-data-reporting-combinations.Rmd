@@ -1,0 +1,101 @@
+---
+title: Data reporting - combinations
+author: Brian Bowling
+date: '2020-09-18'
+slug: data-reporting-combinations
+categories:
+  - data_reporting
+tags:
+  - stats
+---
+
+One of the issues I occasionally run into is a need to create all possible combinations of two or more sets of strings.
+
+For example, I'm currently taking a look at the weather data you can find here: https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/
+
+The data consists of 115,076 fixed-width text files with a ".dly" extension. Each file contains the historic data from a single weather station. Each row of the data consists of the station's id, the year and month the readings were taken and 31 sets of values with three flags for each value.
+
+Each row also includes an "element" column which is a four-character code telling you what was actually measured. The documentation for that variable shows some codes that are easy to import into a lookup table, such as "PRCP" for "Precipitation (tenths of mm)."
+
+Others, however are more complex:
+
+```
+	   SN*# = Minimum soil temperature (tenths of degrees C)
+	          where * corresponds to a code
+	          for ground cover and # corresponds to a code for soil 
+		  depth.  
+		  
+		  Ground cover codes include the following:
+		  0 = unknown
+		  1 = grass
+		  2 = fallow
+		  3 = bare ground
+		  4 = brome grass
+		  5 = sod
+		  6 = straw multch
+		  7 = grass muck
+		  8 = bare muck
+		  
+		  Depth codes include the following:
+		  1 = 5 cm
+		  2 = 10 cm
+		  3 = 20 cm
+		  4 = 50 cm
+		  5 = 100 cm
+		  6 = 150 cm
+		  7 = 180 cm
+```
+
+To add this to a lookup table, I need to come up with every combination of "SN" followed by 1 to 8 and then followed by 1 to 7. There are several ways to do this both in R and in other programs. I took this, however, as an opportunity to come up with a better method.
+
+First I created two tibbles, one for the ground cover codes and descriptions and one for the depth codes and descriptions.
+
+```{r message=F}
+
+library(tidyverse)
+
+gnd_cover <- tribble(
+  ~code, ~desc,
+  '0','unknown',
+  '1','grass',
+  '2','fallow',
+  '3','bare ground',
+  '4','brome grass',
+  '5','sod',
+  '6','straw multch',
+  '7','grass muck',
+  '8','bare muck'
+)
+
+depth_codes <- tribble(
+  ~code,~depth,
+  '1','5 cm',
+  '2','10 cm',
+  '3','20 cm',
+  '4','50 cm',
+  '5','100 cm',
+  '6','150 cm',
+  '7','180 cm'
+)
+
+
+```
+
+Then I used two dplyr functions I haven't used before, crossing() and unite() to create the combinations and put them in a tibble.
+
+```{r}
+soil_temp_lookup <- bind_cols(unite(crossing("SN",gnd_cover$code,depth_codes$code),
+                                    soil_temp,sep=''),
+                              unite(crossing(gnd_cover$desc,depth_codes$depth),desc,sep=", "))
+
+
+```
+
+Voila! A functional lookup table that I can add to the other lookups.
+
+```{r}
+
+soil_temp_lookup
+
+```
+
