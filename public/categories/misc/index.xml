@@ -6,7 +6,18 @@
     <description>Recent content in misc on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 09 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/misc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/misc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Monty Hall Problem</title>
+      <link>/2020/11/09/monty-hall-problem/</link>
+      <pubDate>Mon, 09 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/11/09/monty-hall-problem/</guid>
+      <description>Some people intuitively grasp the correct answer to the Monty Hall Problem. Others, myself included, reluctantly accept the answer without really understanding it.
+Last night, for some reason, I had a breakthrough.
+For those of you not familiar with it, the problem is named after the former host of Let’s Make A Deal, Monty Hall, and deals with a contestant having to choose one of three doors.</description>
+    </item>
+    
     <item>
       <title>County-by-county Covid-19 trends</title>
       <link>/2020/05/09/local-covid-19-trends/</link>
