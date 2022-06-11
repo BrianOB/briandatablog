@@ -1,0 +1,194 @@
+---
+title: Pittsburgh 311 call volume drops during pandemic
+author: Brian Bowling
+date: '2020-11-14'
+slug: pittsburgh-311-call-volume-drops-during-pandemic
+categories:
+  - misc
+tags:
+  - stats
+---
+
+Going into this analysis, I expected to see an increase in the number of calls made to Pittsburgh's 311 help line. After all, people are spending more time at home so they have more time to get bugged about litter, noisy neighbors, etc.
+
+While those kinds of calls saw an uptick, the overall trend is an 18-percent drop in calls between 2019 and 2020.
+
+The number of calls about Pittsburgh issues dropped even further. The 311 call center takes calls from outside the city and forwards those calls to the caller's municipality. Those outside calls nearly tripled in 2020. Removing them from the totals shows that the number of calls from inside the city dropped by 29 percent.
+
+The analysis looks at calls made between March and October for the past five years. The 2020 total is lower than any of the other years' totals.
+
+The data comes from the Western Pennsylvania Regional Data Center,
+https://data.wprdc.org/dataset/311-data.
+
+
+
+```{r calculations, include=F}
+
+# library
+library(tidyverse)
+library(lubridate)
+library(DT)
+library(scales)
+
+options(dplyr.summarise.inform = FALSE)
+
+
+# name of download file changes and is a alphanumeric mess, so just search for it
+file_target <- list.files('C:/Users/Brian/Documents/data/pittsburgh/calls_311/',
+                          pattern="*.csv",
+                          full.names=T)
+
+# load data
+calls <- read_csv(file_target,
+                  col_types= cols(.default=col_character(),
+                             CREATED_ON=col_datetime(format=""),
+                             X = col_double(),
+                             Y = col_double()))
+
+# period is midnight March 1 of each year to midnight of Nov. 1
+
+calls <- calls %>% 
+  mutate(covid_category = case_when(
+    between(CREATED_ON,as.POSIXct('2020-03-01 00:00:00'),as.POSIXct('2020-11-01 00:00:00')) ~
+      'ref2020',
+    between(CREATED_ON,as.POSIXct('2019-03-01 00:00:00'),as.POSIXct('2019-11-01 00:00:00')) ~
+      'ref2019',
+    between(CREATED_ON,as.POSIXct('2018-03-01 00:00:00'),as.POSIXct('2018-11-01 00:00:00')) ~
+      'ref2018',
+    between(CREATED_ON,as.POSIXct('2017-03-01 00:00:00'),as.POSIXct('2017-11-01 00:00:00')) ~
+      'ref2017',
+    between(CREATED_ON,as.POSIXct('2016-03-01 00:00:00'),as.POSIXct('2016-11-01 00:00:00')) ~
+      'ref2016',
+    TRUE ~ 'N'
+  ))
+
+# covid comparison
+covid_comp_all <- calls %>% 
+  filter(covid_category != 'N')
+
+# limit to incity calls
+covid_comp <- covid_comp_all %>% 
+  filter(GEO_ACCURACY!='OUT_OF_BOUNDS')
+
+# neighborhoods
+neighborhoods <- covid_comp %>% 
+  group_by(covid_category, NEIGHBORHOOD) %>% 
+  summarise(calls_rcvd = n()) %>%
+  mutate(calls_rcvd = ifelse(is.na(calls_rcvd),0,calls_rcvd)) %>% 
+  pivot_wider(id_cols=NEIGHBORHOOD, names_from=covid_category, values_from=calls_rcvd) %>% 
+  mutate(change_19_20 = ref2020-ref2019,
+         pct_change = round(change_19_20/ref2019,digits=3))
+
+
+# requests
+
+requests <- covid_comp %>% 
+  group_by(covid_category, REQUEST_TYPE) %>% 
+  summarise(calls_rcvd = n()) %>% 
+  mutate(calls_rcvd = ifelse(is.na(calls_rcvd),0,calls_rcvd)) %>% 
+  pivot_wider(id_cols=REQUEST_TYPE,names_from=covid_category,values_from=calls_rcvd) %>% 
+  mutate(change_19_20 = ref2020-ref2019,
+       pct_change = round(change_19_20/ref2019,digits=3))
+
+# tops and bottoms
+
+top5requests <- requests %>%
+  slice_max(n=5,order_by=change_19_20)
+
+bottom5requests <- requests %>%
+  slice_min(n=5,order_by=change_19_20)
+
+top3neighborhoods <- neighborhoods %>%
+  filter(!is.na(NEIGHBORHOOD)) %>% 
+  slice_max(n=3,order_by=change_19_20)
+
+bottom5neighborhoods <- neighborhoods %>%
+  filter(!is.na(NEIGHBORHOOD)) %>% 
+  slice_min(n=5,order_by=change_19_20)
+
+
+```
+
+```{r annual, echo=F}
+
+covid_comp_all %>% 
+  group_by(covid_category, in_city = ifelse(GEO_ACCURACY=='OUT_OF_BOUNDS','N','Y')) %>% 
+  summarise(calls_rcvd = n()) %>% 
+  ggplot(aes(x=covid_category,y=calls_rcvd,fill=in_city)) +
+  geom_col() +
+  labs(title = "Calls to Pittsburgh 311 from March through October",
+       x = '',
+       y='',
+       fill="Inside City") +
+  scale_x_discrete(labels=c('2016','2017','2018','2019','2020')) +
+  scale_y_continuous(label=comma,limits = c(0,80000)) +
+  theme(plot.title=element_text(hjust=0.5),
+        )
+
+
+```
+
+The issues that saw the main increase were people asking for information. While 127 calls were specifically about Covid-19 violations, that data doesn't show how many of the other information calls dealt with the coronavirus.
+
+```{r top 5 requests, echo=F}
+
+top5requests %>% 
+  select(REQUEST_TYPE,ref2020,change_19_20,pct_change) %>% 
+  datatable(options=list(dom='t'),
+            colnames = c('Issue','2020','Change from 2019','Percent change'),
+            caption = htmltools::tags$caption( style = 'caption-side: top; text-align: center; color:black; font-size:200% ;','Issues that saw the largest increase in 311 calls post-Covid')) %>% 
+  formatRound(c('ref2020','change_19_20'),digits=0) %>% 
+  formatPercentage('pct_change',digits=1)
+
+```
+
+Calls about potholes, weeds, etc. actually saw the largest decreases.
+
+```{r bottom 5 requests, echo=F}
+
+
+bottom5requests %>% 
+  select(REQUEST_TYPE,ref2020,change_19_20,pct_change) %>% 
+  datatable(options=list(dom='t'),
+            colnames = c('Issue','2020','Change from 2019','Percent change'),
+            caption = htmltools::tags$caption( style = 'caption-side: top; text-align: center; color:black; font-size:200% ;','Issues that saw the largest decrease post-Covid')) %>% 
+  formatRound(c('ref2020','change_19_20'),digits=0) %>% 
+  formatPercentage('pct_change',digits=1)
+
+
+```
+
+The City Source (CDBG) calls are apparently connected City Source Associates Inc., a non-profit community development corporation. CDBG is a common acronym for federal community development block grants. The data doesn't show what the calls were about.
+
+As for neighborhoods, only 3 saw an increase in 311 calls, the rest saw decreases.
+
+```{r top5hoods, echo=F}
+
+
+top3neighborhoods %>% 
+  select(NEIGHBORHOOD,ref2020,change_19_20,pct_change) %>% 
+  datatable(options=list(dom='t'),
+            colnames = c('Neighborhood','2020','Change from 2019','Percent change'),
+            caption = htmltools::tags$caption( style = 'caption-side: top; text-align: center; color:black; font-size:150% ;','Neighborhoods that saw the largest increase in 311 calls post-Covid')) %>% 
+  formatRound(c('ref2020','change_19_20'),digits=0) %>% 
+  formatPercentage('pct_change',digits=1)
+
+
+```
+
+The decreases in 311 calls tended to come in neighborhoods with large commercial sectors. In particular, the Central Business District and several South Hills neighborhoods saw the largest decreases.
+
+```{r bottom5hoods ,echo=F}
+
+
+bottom5neighborhoods %>% 
+  select(NEIGHBORHOOD,ref2020,change_19_20,pct_change) %>% 
+  datatable(options=list(dom='t'),
+            colnames = c('Neighborhood','2020','Change from 2019','Percent change'),
+            caption = htmltools::tags$caption( style = 'caption-side: top; text-align: center; color:black; font-size:150% ;','Neighborhoods that saw the largest decrease in 311 calls post-Covid')) %>% 
+  formatRound(c('ref2020','change_19_20'),digits=0) %>% 
+  formatPercentage('pct_change',digits=1)
+
+
+```
+

@@ -6,7 +6,17 @@
     <description>Recent content in stats on Brian&#39;s Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/stats/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/stats/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pittsburgh 311 call volume drops during pandemic</title>
+      <link>/2020/11/14/pittsburgh-311-call-volume-drops-during-pandemic/</link>
+      <pubDate>Sat, 14 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/11/14/pittsburgh-311-call-volume-drops-during-pandemic/</guid>
+      <description>Going into this analysis, I expected to see an increase in the number of calls made to Pittsburgh’s 311 help line. After all, people are spending more time at home so they have more time to get bugged about litter, noisy neighbors, etc.
+While those kinds of calls saw an uptick, the overall trend is an 18-percent drop in calls between 2019 and 2020.</description>
+    </item>
+    
     <item>
       <title>Monty Hall Problem</title>
       <link>/2020/11/09/monty-hall-problem/</link>
