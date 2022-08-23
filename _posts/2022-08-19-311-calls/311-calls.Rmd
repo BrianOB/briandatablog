@@ -1,0 +1,63 @@
+---
+title: "311 Calls"
+description: |
+  A look at 311 call trends by neighborhood.
+categories:
+  - metros
+  - Pittsburgh
+author:
+  - name: Brian Bowling
+    url: https://briandatablog.rbind.io/
+date: 2022-08-19
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries, include=FALSE}
+
+library(tidyverse)
+library(janitor)
+library(lubridate)
+
+```
+
+```{r get data, include=FALSE}
+
+data_path = Sys.getenv('MAIN_DATA_DIR')
+
+data_path2 <- 'C:/Users/Brian/Documents/data'
+
+data_file <- file.path(data_path, 'datablog_files','311_data','08_19_22.csv')
+
+data_file2 <- file.path(data_path2,'datablog_files','311_data','08_19_22.csv')
+
+calls <- read_csv(data_file)
+
+# filter to last four years
+calls <- calls %>% 
+  filter(year(CREATED_ON)>=2019)
+
+```
+
+```{r city vs noncity}
+
+in_city <- calls %>% 
+  mutate(in_city = ifelse(GEO_ACCURACY=='OUT_OF_BOUNDS','n','y'),
+         year = year(CREATED_ON),
+         month = month(CREATED_ON)) %>% 
+  unite('year_month',year:month) %>% 
+  group_by(year_month, in_city) %>% 
+  summarise(calls = n())
+
+in_city %>% ggplot(aes(x=year_month,y=calls,group=in_city,fill=in_city)) +
+  geom_col()
+
+```
+

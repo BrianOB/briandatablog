@@ -1,3 +1,5 @@
 ---
-site: blogdown:::blogdown_site
+title: "Brian's Data Blog"
+site: distill::distill_website
+listing: posts
 ---

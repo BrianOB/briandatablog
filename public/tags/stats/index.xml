@@ -1,154 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>stats on Brian&#39;s Data Blog</title>
-    <link>/tags/stats/</link>
-    <description>Recent content in stats on Brian&#39;s Data Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 14 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/stats/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Pittsburgh 311 call volume drops during pandemic</title>
-      <link>/2020/11/14/pittsburgh-311-call-volume-drops-during-pandemic/</link>
-      <pubDate>Sat, 14 Nov 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/11/14/pittsburgh-311-call-volume-drops-during-pandemic/</guid>
-      <description>Going into this analysis, I expected to see an increase in the number of calls made to Pittsburgh’s 311 help line. After all, people are spending more time at home so they have more time to get bugged about litter, noisy neighbors, etc.
-While those kinds of calls saw an uptick, the overall trend is an 18-percent drop in calls between 2019 and 2020.</description>
-    </item>
-    
-    <item>
-      <title>Monty Hall Problem</title>
-      <link>/2020/11/09/monty-hall-problem/</link>
-      <pubDate>Mon, 09 Nov 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/11/09/monty-hall-problem/</guid>
-      <description>Some people intuitively grasp the correct answer to the Monty Hall Problem. Others, myself included, reluctantly accept the answer without really understanding it.
-Last night, for some reason, I had a breakthrough.
-For those of you not familiar with it, the problem is named after the former host of Let’s Make A Deal, Monty Hall, and deals with a contestant having to choose one of three doors.</description>
-    </item>
-    
-    <item>
-      <title>Data reporting - combinations</title>
-      <link>/2020/09/18/data-reporting-combinations/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/09/18/data-reporting-combinations/</guid>
-      <description>One of the issues I occasionally run into is a need to create all possible combinations of two or more sets of strings.
-For example, I’m currently taking a look at the weather data you can find here: https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/
-The data consists of 115,076 fixed-width text files with a “.dly” extension. Each file contains the historic data from a single weather station. Each row of the data consists of the station’s id, the year and month the readings were taken and 31 sets of values with three flags for each value.</description>
-    </item>
-    
-    <item>
-      <title>Data reporting - more scraping</title>
-      <link>/2020/06/12/data-reporting-more-scraping/</link>
-      <pubDate>Fri, 12 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/12/data-reporting-more-scraping/</guid>
-      <description>A fellow reporter, Jason Kandel, asked me to look at how to use Google Sheets to scrape wildfire information from this site: https://inciweb.nwcg.gov/accessible-view/
-I’ve had mixed success using Google Sheets as a scraper but I managed to come up with a kludge that requires manual updates as fires get added to the list (which seems to be fairly often based on my limited experience with the site).</description>
-    </item>
-    
-    <item>
-      <title>Data reporting - web scraping basics</title>
-      <link>/2020/06/11/analyzing-data-scraping-basics/</link>
-      <pubDate>Thu, 11 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/11/analyzing-data-scraping-basics/</guid>
-      <description>A quick look at web scraping, data cleaning and data archivingThis is more of a quick look at something I recently learned than anything exhaustive on the subject. What I learned is how to use html_table() in the rvest package to save myself a lot of headaches when it comes to scraping.
-Typically when I scrape data from the site I figure out how to grab individual pieces of data, pull them into lists and then create a tibble (data frame) from the lists.</description>
-    </item>
-    
-    <item>
-      <title>Data reporting - average percent change</title>
-      <link>/2020/06/08/data-reporting-average-percent-change/</link>
-      <pubDate>Mon, 08 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/08/data-reporting-average-percent-change/</guid>
-      <description>Calculating the rate of changeWhen it comes to analyzing several observations over time, figuring out the average percent increase or decrease (i.e. growth rate) is a useful but potentially misleading tool. Looking over a city’s budget for the past five years, for example, you can see how the growth in spending and revenues compared to each other as well as inflation. Comparing county population growth rates over a few decades can help pinpoint the ones with consistent growth.</description>
-    </item>
-    
-    <item>
-      <title>Data reporting - analyzing occurrences</title>
-      <link>/2020/06/07/data-reporting-analyzing-occurrences/</link>
-      <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/07/data-reporting-analyzing-occurrences/</guid>
-      <description>Analyzing the frequency of occurrencesThis is the first in an occasional series of posts mainly geared toward other data journalists. In this post, I’m taking a look at how to calculate the frequency of occurrences in a time-series data. The question is a trivial one, but it does illustrate how data can change your thinking.
-Netflix emailsI subscribed to Netflix in June 2019, primarily to watch Season 3 of Stranger Things.</description>
-    </item>
-    
-    <item>
-      <title>County-by-county Covid-19 trends</title>
-      <link>/2020/05/09/local-covid-19-trends/</link>
-      <pubDate>Sat, 09 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/05/09/local-covid-19-trends/</guid>
-      <description>Finding local trend dataWhile it’s easy to find county-level totals for the number of Covid-19 cases and deaths, it’s not as easy to find trend data. Fortunately, the nonproft USAFacts.org and Big Local News, a program in Stanford University’s Journalism and Democracy Initiative, have collaborated to provide that kind of data. Here’s the latest data for nine counties in Southwestern Pennsylvania: Allegheny, Armstrong, Beaver, Butler, Fayette, Greene, Lawrence, Washington and Westmoreland.</description>
-    </item>
-    
-    <item>
-      <title>Coronavirus stats - new cases in US decline but new deaths increase</title>
-      <link>/2020/04/16/coronavirus-stats-new-cases-in-us-decline-but-new-deaths-increase/</link>
-      <pubDate>Thu, 16 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/16/coronavirus-stats-new-cases-in-us-decline-but-new-deaths-increase/</guid>
-      <description>An update on my earlier coronavirus post showing some good and bad news for the United States. Specifically, the number of new cases has decreased but the number of new deaths spiked. The spike could be a reporting issue. It’s too early to tell.
-The obvious caveats are that the daily number of new Covid-19 cases and coronavirus-related deaths rely on the accurate testing of patients and the willingness of countries to share data with their own citizens and the rest of the world.</description>
-    </item>
-    
-    <item>
-      <title>U.S. above median for deaths from coronavirus infections</title>
-      <link>/2020/04/15/u-s-above-median-for-deaths-from-coronavirus-infections/</link>
-      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/15/u-s-above-median-for-deaths-from-coronavirus-infections/</guid>
-      <description>The United States is seeing a higher rate of deaths from coronavirus infections than the median for the 125 countries that have reported cases and deaths to the European Centre for Disease Prevention and Control, according to today’s stats.
-As with most of coronavirus numbers, the main caveat is that it’s hard to gauge the honesty and competency of any of the countries, including the United States, when it comes to detecting infections and deaths related to Covid-19.</description>
-    </item>
-    
-    <item>
-      <title>Coronavirus test data</title>
-      <link>/2020/04/14/coronavirus-test-data/</link>
-      <pubDate>Tue, 14 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/14/coronavirus-test-data/</guid>
-      <description>The Centers for Disease Control give a daily update on the number of Covid-19 tests reported to the agency. Here’s the data as of April 14.
-{&#34;x&#34;:{&#34;filter&#34;:&#34;none&#34;,&#34;data&#34;:[[&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;,&#34;6&#34;,&#34;7&#34;,&#34;8&#34;,&#34;9&#34;,&#34;10&#34;,&#34;11&#34;,&#34;12&#34;,&#34;13&#34;,&#34;14&#34;,&#34;15&#34;,&#34;16&#34;,&#34;17&#34;,&#34;18&#34;,&#34;19&#34;,&#34;20&#34;,&#34;21&#34;,&#34;22&#34;,&#34;23&#34;,&#34;24&#34;,&#34;25&#34;,&#34;26&#34;,&#34;27&#34;,&#34;28&#34;,&#34;29&#34;,&#34;30&#34;,&#34;31&#34;,&#34;32&#34;,&#34;33&#34;,&#34;34&#34;,&#34;35&#34;,&#34;36&#34;,&#34;37&#34;,&#34;38&#34;,&#34;39&#34;,&#34;40&#34;,&#34;41&#34;,&#34;42&#34;,&#34;43&#34;,&#34;44&#34;,&#34;45&#34;,&#34;46&#34;,&#34;47&#34;,&#34;48&#34;,&#34;49&#34;,&#34;50&#34;,&#34;51&#34;,&#34;52&#34;,&#34;53&#34;,&#34;54&#34;,&#34;55&#34;,&#34;56&#34;,&#34;57&#34;,&#34;58&#34;,&#34;59&#34;,&#34;60&#34;,&#34;61&#34;,&#34;62&#34;,&#34;63&#34;,&#34;64&#34;,&#34;65&#34;,&#34;66&#34;,&#34;67&#34;,&#34;68&#34;,&#34;69&#34;,&#34;70&#34;,&#34;71&#34;,&#34;72&#34;,&#34;73&#34;,&#34;74&#34;,&#34;75&#34;,&#34;76&#34;,&#34;77&#34;,&#34;78&#34;,&#34;79&#34;,&#34;80&#34;,&#34;81&#34;,&#34;82&#34;,&#34;83&#34;,&#34;84&#34;,&#34;85&#34;,&#34;86&#34;,&#34;87&#34;,&#34;88&#34;,&#34;89&#34;,&#34;90&#34;,&#34;91&#34;,&#34;92&#34;,&#34;93&#34;,&#34;94&#34;,&#34;95&#34;,&#34;96&#34;,&#34;97&#34;,&#34;98&#34;,&#34;99&#34;,&#34;100&#34;,&#34;101&#34;,&#34;102&#34;,&#34;103&#34;,&#34;104&#34;,&#34;105&#34;,&#34;106&#34;,&#34;107&#34;,&#34;108&#34;,&#34;109&#34;,&#34;110&#34;,&#34;111&#34;,&#34;112&#34;,&#34;113&#34;,&#34;114&#34;,&#34;115&#34;,&#34;116&#34;,&#34;117&#34;,&#34;118&#34;,&#34;119&#34;,&#34;120&#34;,&#34;121&#34;,&#34;122&#34;,&#34;123&#34;,&#34;124&#34;,&#34;125&#34;,&#34;126&#34;,&#34;127&#34;,&#34;128&#34;,&#34;129&#34;,&#34;130&#34;,&#34;131&#34;,&#34;132&#34;,&#34;133&#34;,&#34;134&#34;,&#34;135&#34;,&#34;136&#34;,&#34;137&#34;,&#34;138&#34;,&#34;139&#34;,&#34;140&#34;,&#34;141&#34;,&#34;142&#34;,&#34;143&#34;,&#34;144&#34;,&#34;145&#34;,&#34;146&#34;,&#34;147&#34;,&#34;148&#34;,&#34;149&#34;,&#34;150&#34;,&#34;151&#34;,&#34;152&#34;,&#34;153&#34;,&#34;154&#34;,&#34;155&#34;,&#34;156&#34;,&#34;157&#34;,&#34;158&#34;,&#34;159&#34;,&#34;160&#34;,&#34;161&#34;,&#34;162&#34;,&#34;163&#34;,&#34;164&#34;,&#34;165&#34;,&#34;166&#34;,&#34;167&#34;,&#34;168&#34;,&#34;169&#34;,&#34;170&#34;,&#34;171&#34;,&#34;172&#34;,&#34;173&#34;,&#34;174&#34;],[&#34;2020-01-18&#34;,&#34;2020-01-18&#34;,&#34;2020-01-19&#34;,&#34;2020-01-19&#34;,&#34;2020-01-20&#34;,&#34;2020-01-20&#34;,&#34;2020-01-21&#34;,&#34;2020-01-21&#34;,&#34;2020-01-22&#34;,&#34;2020-01-22&#34;,&#34;2020-01-23&#34;,&#34;2020-01-23&#34;,&#34;2020-01-24&#34;,&#34;2020-01-24&#34;,&#34;2020-01-25&#34;,&#34;2020-01-25&#34;,&#34;2020-01-26&#34;,&#34;2020-01-26&#34;,&#34;2020-01-27&#34;,&#34;2020-01-27&#34;,&#34;2020-01-28&#34;,&#34;2020-01-28&#34;,&#34;2020-01-29&#34;,&#34;2020-01-29&#34;,&#34;2020-01-30&#34;,&#34;2020-01-30&#34;,&#34;2020-01-31&#34;,&#34;2020-01-31&#34;,&#34;2020-02-01&#34;,&#34;2020-02-01&#34;,&#34;2020-02-02&#34;,&#34;2020-02-02&#34;,&#34;2020-02-03&#34;,&#34;2020-02-03&#34;,&#34;2020-02-04&#34;,&#34;2020-02-04&#34;,&#34;2020-02-05&#34;,&#34;2020-02-05&#34;,&#34;2020-02-06&#34;,&#34;2020-02-06&#34;,&#34;2020-02-07&#34;,&#34;2020-02-07&#34;,&#34;2020-02-08&#34;,&#34;2020-02-08&#34;,&#34;2020-02-09&#34;,&#34;2020-02-09&#34;,&#34;2020-02-10&#34;,&#34;2020-02-10&#34;,&#34;2020-02-11&#34;,&#34;2020-02-11&#34;,&#34;2020-02-12&#34;,&#34;2020-02-12&#34;,&#34;2020-02-13&#34;,&#34;2020-02-13&#34;,&#34;2020-02-14&#34;,&#34;2020-02-14&#34;,&#34;2020-02-15&#34;,&#34;2020-02-15&#34;,&#34;2020-02-16&#34;,&#34;2020-02-16&#34;,&#34;2020-02-17&#34;,&#34;2020-02-17&#34;,&#34;2020-02-18&#34;,&#34;2020-02-18&#34;,&#34;2020-02-19&#34;,&#34;2020-02-19&#34;,&#34;2020-02-20&#34;,&#34;2020-02-20&#34;,&#34;2020-02-21&#34;,&#34;2020-02-21&#34;,&#34;2020-02-22&#34;,&#34;2020-02-22&#34;,&#34;2020-02-23&#34;,&#34;2020-02-23&#34;,&#34;2020-02-24&#34;,&#34;2020-02-24&#34;,&#34;2020-02-25&#34;,&#34;2020-02-25&#34;,&#34;2020-02-26&#34;,&#34;2020-02-26&#34;,&#34;2020-02-27&#34;,&#34;2020-02-27&#34;,&#34;2020-02-28&#34;,&#34;2020-02-28&#34;,&#34;2020-02-29&#34;,&#34;2020-02-29&#34;,&#34;2020-03-01&#34;,&#34;2020-03-01&#34;,&#34;2020-03-02&#34;,&#34;2020-03-02&#34;,&#34;2020-03-03&#34;,&#34;2020-03-03&#34;,&#34;2020-03-04&#34;,&#34;2020-03-04&#34;,&#34;2020-03-05&#34;,&#34;2020-03-05&#34;,&#34;2020-03-06&#34;,&#34;2020-03-06&#34;,&#34;2020-03-07&#34;,&#34;2020-03-07&#34;,&#34;2020-03-08&#34;,&#34;2020-03-08&#34;,&#34;2020-03-09&#34;,&#34;2020-03-09&#34;,&#34;2020-03-10&#34;,&#34;2020-03-10&#34;,&#34;2020-03-11&#34;,&#34;2020-03-11&#34;,&#34;2020-03-12&#34;,&#34;2020-03-12&#34;,&#34;2020-03-13&#34;,&#34;2020-03-13&#34;,&#34;2020-03-14&#34;,&#34;2020-03-14&#34;,&#34;2020-03-15&#34;,&#34;2020-03-15&#34;,&#34;2020-03-16&#34;,&#34;2020-03-16&#34;,&#34;2020-03-17&#34;,&#34;2020-03-17&#34;,&#34;2020-03-18&#34;,&#34;2020-03-18&#34;,&#34;2020-03-19&#34;,&#34;2020-03-19&#34;,&#34;2020-03-20&#34;,&#34;2020-03-20&#34;,&#34;2020-03-21&#34;,&#34;2020-03-21&#34;,&#34;2020-03-22&#34;,&#34;2020-03-22&#34;,&#34;2020-03-23&#34;,&#34;2020-03-23&#34;,&#34;2020-03-24&#34;,&#34;2020-03-24&#34;,&#34;2020-03-25&#34;,&#34;2020-03-25&#34;,&#34;2020-03-26&#34;,&#34;2020-03-26&#34;,&#34;2020-03-27&#34;,&#34;2020-03-27&#34;,&#34;2020-03-28&#34;,&#34;2020-03-28&#34;,&#34;2020-03-29&#34;,&#34;2020-03-29&#34;,&#34;2020-03-30&#34;,&#34;2020-03-30&#34;,&#34;2020-03-31&#34;,&#34;2020-03-31&#34;,&#34;2020-04-01&#34;,&#34;2020-04-01&#34;,&#34;2020-04-02&#34;,&#34;2020-04-02&#34;,&#34;2020-04-03&#34;,&#34;2020-04-03&#34;,&#34;2020-04-04&#34;,&#34;2020-04-04&#34;,&#34;2020-04-05&#34;,&#34;2020-04-05&#34;,&#34;2020-04-06&#34;,&#34;2020-04-06&#34;,&#34;2020-04-07&#34;,&#34;2020-04-07&#34;,&#34;2020-04-08&#34;,&#34;2020-04-08&#34;,&#34;2020-04-09&#34;,&#34;2020-04-09&#34;,&#34;2020-04-10&#34;,&#34;2020-04-10&#34;,&#34;2020-04-11&#34;,&#34;2020-04-11&#34;,&#34;2020-04-12&#34;,&#34;2020-04-12&#34;,&#34;2020-04-13&#34;,&#34;2020-04-13&#34;],[&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;,&#34;CDC_labs&#34;,&#34;public_health_labs&#34;],[4,0,0,0,7,0,3,0,10,0,36,0,53,0,101,0,79,0,77,0,65,0,102,0,256,0,63,0,310,3,33,0,131,1,93,0,104,3,74,2,93,0,79,0,36,2,37,1,95,2,56,2,47,1,36,5,51,4,24,1,7,28,32,11,63,6,55,4,249,3,254,3,67,2,50,19,50,14,80,31,62,142,86,183,80,289,31,263,94,578,73,822,111,1195,86,1751,5,2005,179,1528,82,1690,36,3439,172,3672,143,4487,205,6341,29,6991,20,6203,1,5887,3,11263,15,11514,31,10799,15,10532,11,10217,32,5892,1,5163,2,9422,4,9452,29,9941,42,10397,26,10166,9,6831,1,5643,5,11559,34,11751,10,11356,32,12433,33,12957,17,7561,5,7051,11,12912,28,12205,31,12262,30,10158,24,9394,0,3517,0,465,0,7]],&#34;container&#34;:&#34;\n \n \n  \n date\n lab_type\n tests\n \n \n&#34;,&#34;options&#34;:{&#34;columnDefs&#34;:[{&#34;className&#34;:&#34;dt-right&#34;,&#34;targets&#34;:3},{&#34;orderable&#34;:false,&#34;targets&#34;:0}],&#34;order&#34;:[],&#34;autoWidth&#34;:false,&#34;orderClasses&#34;:false}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}The CDC notes that the data for last 7 days is incomplete due to reporting delays. Here’s a graph of the days with full data.</description>
-    </item>
-    
-    <item>
-      <title>Coronavirus test data (technical)</title>
-      <link>/2020/04/14/coronavirus-test-data-technical/</link>
-      <pubDate>Tue, 14 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/14/coronavirus-test-data-technical/</guid>
-      <description>This is the same information I posted earlier, but with the script exposed for those interested in replicating it.
-# librarieslibrary(tidyverse)library(rvest)library(lubridate)# read the web pageurl_cdc_testing_data &amp;lt;- &amp;#39;https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/testing-in-us.html&amp;#39;cdc_testing_web &amp;lt;- read_html(url_cdc_testing_data)# functions to process dataendnote &amp;lt;- function(x) {return(str_detect(x,&amp;#39;\\d$&amp;#39;,negate=T))}get_last &amp;lt;- function(x) {return(substr(x, nchar(x), nchar(x)))}cutnote &amp;lt;- function(x) {return(substr(x, 1, nchar(x)-1))}# get data from web pagecdc_test_data &amp;lt;- html_nodes(cdc_testing_web, &amp;#39;table&amp;#39;) %&amp;gt;% html_nodes(&amp;#39;td&amp;#39;) %&amp;gt;% html_text() %&amp;gt;% matrix(ncol=3, byrow=T, dimnames=list(NULL,c(&amp;#39;date&amp;#39;,&amp;#39;CDC_labs&amp;#39;,&amp;#39;public_health_labs&amp;#39;))) %&amp;gt;% as_tibble() %&amp;gt;% pivot_longer(cols=c(CDC_labs, public_health_labs), names_to=&amp;#39;lab_type&amp;#39;,values_to = &amp;#39;tests&amp;#39;) %&amp;gt;% mutate(date = mdy(paste0(date,&amp;#39;/2020&amp;#39;)),note = ifelse(endnote(tests),get_last(tests),&amp;#39;&amp;#39;),tests = as.</description>
-    </item>
-    
-    <item>
-      <title>State homeless statsitics</title>
-      <link>/2019/09/10/state-homeless-statsitics/</link>
-      <pubDate>Tue, 10 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/09/10/state-homeless-statsitics/</guid>
-      <description>With President Trump threatening federal intervention in California’s homeless crisis, it’s a good time to look at which state’s actually have the worst rates of homelessness. The surprise is that he has bigger problems closer to home, regardless of whether you’re talking about the White House or his Manhattan apartment.
-{&#34;x&#34;:{&#34;filter&#34;:&#34;none&#34;,&#34;data&#34;:[[&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;,&#34;6&#34;,&#34;7&#34;,&#34;8&#34;,&#34;9&#34;,&#34;10&#34;,&#34;11&#34;,&#34;12&#34;,&#34;13&#34;,&#34;14&#34;,&#34;15&#34;,&#34;16&#34;,&#34;17&#34;,&#34;18&#34;,&#34;19&#34;,&#34;20&#34;,&#34;21&#34;,&#34;22&#34;,&#34;23&#34;,&#34;24&#34;,&#34;25&#34;,&#34;26&#34;,&#34;27&#34;,&#34;28&#34;,&#34;29&#34;,&#34;30&#34;,&#34;31&#34;,&#34;32&#34;,&#34;33&#34;,&#34;34&#34;,&#34;35&#34;,&#34;36&#34;,&#34;37&#34;,&#34;38&#34;,&#34;39&#34;,&#34;40&#34;,&#34;41&#34;,&#34;42&#34;,&#34;43&#34;,&#34;44&#34;,&#34;45&#34;,&#34;46&#34;,&#34;47&#34;,&#34;48&#34;,&#34;49&#34;,&#34;50&#34;,&#34;51&#34;,&#34;52&#34;],[&#34;District of Columbia&#34;,&#34;New York&#34;,&#34;Hawaii&#34;,&#34;Oregon&#34;,&#34;California&#34;,&#34;Washington&#34;,&#34;Massachusetts&#34;,&#34;Alaska&#34;,&#34;Nevada&#34;,&#34;Vermont&#34;,&#34;Colorado&#34;,&#34;Maine&#34;,&#34;Florida&#34;,&#34;Arizona&#34;,&#34;Montana&#34;,&#34;South Dakota&#34;,&#34;Minnesota&#34;,&#34;Nebraska&#34;,&#34;New Mexico&#34;,&#34;Maryland&#34;,&#34;Tennessee&#34;,&#34;Idaho&#34;,&#34;Delaware&#34;,&#34;Connecticut&#34;,&#34;Wyoming&#34;,&#34;New Hampshire&#34;,&#34;Pennsylvania&#34;,&#34;New Jersey&#34;,&#34;Rhode Island&#34;,&#34;Puerto Rico&#34;,&#34;Oklahoma&#34;,&#34;Missouri&#34;,&#34;Utah&#34;,&#34;Georgia&#34;,&#34;Arkansas&#34;,&#34;North Carolina&#34;,&#34;Texas&#34;,&#34;Ohio&#34;,&#34;Iowa&#34;,&#34;Wisconsin&#34;,&#34;Michigan&#34;,&#34;Illinois&#34;,&#34;Kentucky&#34;,&#34;Indiana&#34;,&#34;South Carolina&#34;,&#34;Kansas&#34;,&#34;North Dakota&#34;,&#34;Alabama&#34;,&#34;Virginia&#34;,&#34;West Virginia&#34;</description>
-    </item>
-    
-    <item>
-      <title>Random stuff on Bayes&#39; Theorem</title>
-      <link>/2019/03/20/random-stuff-on-bayes-theorem/</link>
-      <pubDate>Wed, 20 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/03/20/random-stuff-on-bayes-theorem/</guid>
-      <description>IntroJust some general notes as I try to learn how to use Bayes statistics. Take everything with a large grain of salt since there’s a reasonable chance I’ll get some of it wrong.
-The underlying idea is that the Bayes’ Theorem allows you to refine your grasp on reality by using new evidence to modify your understanding.
-Terminology:
-P(A): probability of Event A.
-P(B): probability of Event B.</description>
-    </item>
-    
-  </channel>
-</rss>

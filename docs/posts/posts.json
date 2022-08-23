@@ -1,0 +1,19 @@
+[
+  {
+    "path": "posts/welcome/",
+    "title": "Brian's Data Blog",
+    "description": "Welcome to my blog about data journalism.",
+    "author": [
+      {
+        "name": "Brian Bowling",
+        "url": "https://briandatablog.rbind.io/"
+      }
+    ],
+    "date": "2022-08-18",
+    "categories": [],
+    "contents": "\r\nUnder construction\r\nI took the previous blog down to work on a new version using the\r\ndistill package. I hope to have the new blog up soon.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-08-23T15:37:48-04:00",
+    "input_file": {}
+  }
+]
