@@ -10,16 +10,23 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     post = "/:year/:month/:day/:slug/"
 
 [[menu.main]]
+    name="Home"
+    url = "/"
+    weight=1
+
+[[menu.main]]
     name = "About"
     url = "/about/"
 [[menu.main]]
-    name = "GitHub"
-    url = "https://github.com/BrianOB/briandatablog"
+    name = "Categories"
+    url = "/categories/"
 [[menu.main]]
-    name = "Twitter"
-    url = "https://twitter.com/brianbupdate"
-[[menu.main]]
-    name = "Gmail address: briandatablog"
+    name = "Tags"
+    url = "/tags/"
+
+[social]
+    github  = "https://github.com/BrianOB/briandatablog"
+    twitter = "https://twitter.com/brianbupdate"
 
 [params]
     description = "A website built through Hugo and blogdown."
@@ -41,4 +48,3 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     width = 75
     height = 75
     alt = "Logo"
-

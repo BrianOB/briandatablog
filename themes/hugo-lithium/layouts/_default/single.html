@@ -13,6 +13,16 @@
     <span class="article-date">{{ .Date.Format "2006-01-02" }}</span>
     {{ end }}
 
+    <div class="article-meta">
+    {{ with .Params.categories }}
+    <h4 class="categories" style="display: inline-block">categories: {{ . }}</h4>
+    {{end}}
+    
+    {{ with .Params.tags }}
+    <h4 class="tags" style = "display: inline-block">tags: {{ . }}</h4>
+    {{end}}
+    </div>
+
     <div class="article-content">
       {{ .Content }}
     </div>
