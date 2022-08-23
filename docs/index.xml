@@ -7,7 +7,15 @@
     <description>An exploration of data journalism.
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 18 Aug 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Aug 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Test post</title>
+      <dc:creator>Brian Bowling</dc:creator>
+      <link>https://briandatablog.rbind.io/posts/2022-08-23-test-post</link>
+      <description>A short description of the post.</description>
+      <guid>https://briandatablog.rbind.io/posts/2022-08-23-test-post</guid>
+      <pubDate>Tue, 23 Aug 2022 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Brian's Data Blog</title>
       <dc:creator>Brian Bowling</dc:creator>

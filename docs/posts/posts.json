@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2022-08-23-test-post/",
+    "title": "Test post",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Brian Bowling",
+        "url": "https://briandatablog.rbind.io/"
+      }
+    ],
+    "date": "2022-08-23",
+    "categories": [],
+    "contents": "\r\nThis is simply a test to see if I’ve set up the blog correctly.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-08-23T17:03:21-04:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/welcome/",
     "title": "Brian's Data Blog",
     "description": "Welcome to my blog about data journalism.",
